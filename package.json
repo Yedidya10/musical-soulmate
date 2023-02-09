@@ -1,0 +1,31 @@
+{
+  "name": "musical-soulmate",
+  "description": "Musical Soulmate is a web application that allows users to find their musical soulmate based on their musical taste. The application uses the Spotify and Last.fm API to get the user's top artists and tracks and then the application compares the user's top artists and tracks with the top artists and tracks of other users and finds the user's musical soulmate.",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@next/font": "13.1.6",
+    "@prisma/client": "^4.9.0",
+    "@types/node": "18.11.19",
+    "@types/react": "18.0.27",
+    "@types/react-dom": "18.0.10",
+    "eslint": "8.33.0",
+    "eslint-config-next": "13.1.6",
+    "next": "13.1.6",
+    "next-auth": "^4.19.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "spotify-web-api-node": "^5.0.2",
+    "typescript": "4.9.5"
+  },
+  "devDependencies": {
+    "prisma": "^4.9.0",
+    "ts-node": "^10.9.1"
+  }
+}
