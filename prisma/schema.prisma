@@ -11,36 +11,27 @@ datasource db {
 }
 
 // models user related
-model User {
-  id            Int          @id @default(autoincrement())
-  email         String       @unique
-  password      String
-  firstName     String
-  lastName      String
-  age           Int?
-  role          Role         @default(USER)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  userProfileId Int
-  profile       UserProfile?
-}
-
 model UserProfile {
-  id               Int             @id @default(autoincrement())
-  user             User            @relation(fields: [userId], references: [id])
-  userId           Int             @unique
-  bio              String?
+  id               String          @id @default(cuid())
+  email            String          @unique
+  password         String
+  firstName        String
+  lastName         String
+  avatar           String?
+  dateOfBirth      DateTime?
+  about            String?
+  role             Role            @default(USER)
   favoriteArtists  ArtistProfile[]
   favoriteTracks   Track[]
   userPlaylists    UserPlaylist[]
   playedRecently   PlayedRecently? @relation(fields: [playedRecentlyId], references: [id])
-  playedRecentlyId Int?
+  playedRecentlyId String?
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
 }
 
 model PasswordResetRequest {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   identifier String
   token      String   @unique
   expires    DateTime
@@ -49,7 +40,7 @@ model PasswordResetRequest {
 }
 
 model EmailChangeRequest {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   identifier String
   token      String   @unique
   newEmail   String
@@ -60,7 +51,7 @@ model EmailChangeRequest {
 
 // models music related
 model ArtistProfile {
-  id            Int          @id @default(autoincrement())
+  id            String       @id @default(cuid())
   name          String
   slug          String       @unique
   bio           String?
@@ -69,11 +60,11 @@ model ArtistProfile {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   userProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
-  userProfileId Int?
+  userProfileId String?
 }
 
 model Album {
-  id        Int             @id @default(autoincrement())
+  id        String          @id @default(cuid())
   title     String
   artists   ArtistProfile[]
   tracks    Track[]
@@ -83,8 +74,8 @@ model Album {
 }
 
 model Track {
-  id               Int             @id @default(autoincrement())
-  albumId          Int
+  id               String          @id @default(cuid())
+  albumId          String
   title            String
   artists          ArtistProfile[]
   userPlaylists    UserPlaylist[]
@@ -94,17 +85,17 @@ model Track {
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   UserProfile      UserProfile?    @relation(fields: [userProfileId], references: [id])
-  userProfileId    Int?
+  userProfileId    String?
   played           TrackPlayed[]
   playedRecently   PlayedRecently? @relation(fields: [playedRecentlyId], references: [id])
-  playedRecentlyId Int?
+  playedRecentlyId String?
 }
 
 model UserPlaylist {
-  id             Int              @id @default(autoincrement())
+  id             String           @id @default(cuid())
   title          String
   author         UserProfile      @relation(fields: [authorId], references: [id])
-  authorId       Int
+  authorId       String
   tracks         Track[]
   length         Int
   userCreatedOn  DateTime
@@ -114,27 +105,27 @@ model UserPlaylist {
 }
 
 model TrackPlayed {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   track      Track    @relation(fields: [trackId], references: [id])
-  trackId    Int
+  trackId    String
   datePlayed DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 
 model PlaylistPlayed {
-  id         Int          @id @default(autoincrement())
+  id         String       @id @default(cuid())
   playlist   UserPlaylist @relation(fields: [playlistId], references: [id])
-  playlistId Int
+  playlistId String
   datePlayed DateTime
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
 }
 
 model PlayedRecently {
-  id          Int           @id @default(autoincrement())
+  id          String        @id @default(cuid())
   tracks      Track[]
-  trackId     Int
+  trackId     String
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   userProfile UserProfile[]
