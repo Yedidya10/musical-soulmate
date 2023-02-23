@@ -1,15 +1,40 @@
 {
   "name": "musical-soulmate",
-  "description": "Musical Soulmate is a web application that allows users to find their musical soulmate based on their musical taste. The application uses the Spotify and Last.fm API to get the user's top artists and tracks and then the application compares the user's top artists and tracks with the top artists and tracks of other users and finds the user's musical soulmate.",
+  "description": "Musical Soulmate is a web application that allows users to find their musical soulmate based on their musical taste.The application uses the Spotify and Last.fm API to get the user's top artists and tracks and then the application compares the user's top artists and tracks with the top artists and tracks of other users and finds the user's musical soulmate.",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Yedidya Aberjel",
+    "email": "yedidya.dev@gmail.com",
+    "url": "https://github.com/Yedidya10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yedidya10/musical-soulmate"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.17.0",
+    "npm": ">=6.14.13",
+    "yarn": "please use npm",
+    "prisma": ">=2.29.1",
+    "typescript": ">=4.4.3",
+    "next": ">=12.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write .",
+    "prepare": "husky install"
+  },
+  "prisma": {
+    "seed": "ts-node --transpile-only ./prisma/seed.ts"
   },
   "dependencies": {
+    "@apollo/server": "^4.4.0",
+    "@as-integrations/next": "^1.2.0",
     "@next/font": "13.1.6",
     "@prisma/client": "^4.9.0",
     "@types/node": "18.11.19",
@@ -17,6 +42,8 @@
     "@types/react-dom": "18.0.10",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
     "next": "13.1.6",
     "next-auth": "^4.19.2",
     "react": "18.2.0",
@@ -25,6 +52,8 @@
     "typescript": "4.9.5"
   },
   "devDependencies": {
+    "husky": "^8.0.3",
+    "prettier": "^2.8.4",
     "prisma": "^4.9.0",
     "ts-node": "^10.9.1"
   }
