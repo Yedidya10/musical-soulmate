@@ -1,19 +1,38 @@
 import styles from './Subscribe.module.scss'
 
 export interface ISubscribe {
-  labelText: string,
-  placeholder: string,
-  buttonText: string,
+  labelText: string
+  emailPlaceholder: string
+  submitButtonText: string
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 }
 
-const Subscribe: React.FC<ISubscribe> = ({ labelText, placeholder, buttonText  }) => {
+const Subscribe: React.FC<ISubscribe> = ({
+  labelText,
+  emailPlaceholder,
+  submitButtonText,
+  handleSubmit,
+}) => {
   return (
-    <form className={styles.form}>
+    <form className={styles.form} name="subscribe" onSubmit={handleSubmit}>
       <label className={styles.label}>
         {labelText}
-        <input className={styles.input} type="email" required placeholder={placeholder} />
+        <input
+          className={styles.input}
+          type="email"
+          name="email"
+          required
+          placeholder={emailPlaceholder}
+        />
       </label>
-      <button className={styles.button} type="submit">{buttonText}</button>
+      <button
+        className={styles.button}
+        type="submit"
+        name="submit"
+        value="submit"
+      >
+        {submitButtonText}
+      </button>
     </form>
   )
 }

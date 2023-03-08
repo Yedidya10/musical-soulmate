@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import PrimaryLayout from '../../layouts/primary/PrimaryLayout'
-
 import { NextPageWithLayout } from '../../../pages/page'
 
 import styles from './PageTemplate.module.scss'

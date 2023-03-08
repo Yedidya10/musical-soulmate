@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
 export interface IHeader extends React.ComponentPropsWithoutRef<'header'> {}
 
@@ -25,7 +25,7 @@ const Header: React.FC<IHeader> = ({ className, ...headerProps }) => {
         </Link>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

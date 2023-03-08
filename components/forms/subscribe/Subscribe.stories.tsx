@@ -19,4 +19,4 @@ export const Base = Template.bind({})
 
 Base.args = {
   ...mockSubscribeProps.base,
-} as ISubscribe;
+} as ISubscribe

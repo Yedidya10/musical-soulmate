@@ -8,7 +8,7 @@ const Footer: React.FC<IFooter> = ({ className, ...footerProps }) => {
     >
       <p>Canada</p>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
