@@ -2,27 +2,29 @@
 CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
 
 -- CreateTable
-CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+CREATE TABLE "Subscriber" (
+    "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
-    "firstName" TEXT NOT NULL,
-    "lastName" TEXT NOT NULL,
-    "age" INTEGER,
-    "role" "Role" NOT NULL DEFAULT 'USER',
+    "language" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "userProfileId" INTEGER NOT NULL,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Subscriber_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "UserProfile" (
-    "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
-    "bio" TEXT,
-    "playedRecentlyId" INTEGER,
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "avatar" TEXT,
+    "dateOfBirth" TIMESTAMP(3),
+    "about" TEXT,
+    "role" "Role" NOT NULL DEFAULT 'USER',
+    "playedRecentlyId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -31,7 +33,7 @@ CREATE TABLE "UserProfile" (
 
 -- CreateTable
 CREATE TABLE "PasswordResetRequest" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
@@ -43,7 +45,7 @@ CREATE TABLE "PasswordResetRequest" (
 
 -- CreateTable
 CREATE TABLE "EmailChangeRequest" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "newEmail" TEXT NOT NULL,
@@ -56,20 +58,20 @@ CREATE TABLE "EmailChangeRequest" (
 
 -- CreateTable
 CREATE TABLE "ArtistProfile" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
     "bio" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "userProfileId" INTEGER,
+    "userProfileId" TEXT,
 
     CONSTRAINT "ArtistProfile_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Album" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "release" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -80,24 +82,24 @@ CREATE TABLE "Album" (
 
 -- CreateTable
 CREATE TABLE "Track" (
-    "id" SERIAL NOT NULL,
-    "albumId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "albumId" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "length" INTEGER NOT NULL,
     "release" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "userProfileId" INTEGER,
-    "playedRecentlyId" INTEGER,
+    "userProfileId" TEXT,
+    "playedRecentlyId" TEXT,
 
     CONSTRAINT "Track_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "UserPlaylist" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "authorId" INTEGER NOT NULL,
+    "authorId" TEXT NOT NULL,
     "length" INTEGER NOT NULL,
     "userCreatedOn" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -108,8 +110,8 @@ CREATE TABLE "UserPlaylist" (
 
 -- CreateTable
 CREATE TABLE "TrackPlayed" (
-    "id" SERIAL NOT NULL,
-    "trackId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "trackId" TEXT NOT NULL,
     "datePlayed" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -119,8 +121,8 @@ CREATE TABLE "TrackPlayed" (
 
 -- CreateTable
 CREATE TABLE "PlaylistPlayed" (
-    "id" SERIAL NOT NULL,
-    "playlistId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "playlistId" TEXT NOT NULL,
     "datePlayed" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -130,8 +132,8 @@ CREATE TABLE "PlaylistPlayed" (
 
 -- CreateTable
 CREATE TABLE "PlayedRecently" (
-    "id" SERIAL NOT NULL,
-    "trackId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "trackId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -140,27 +142,27 @@ CREATE TABLE "PlayedRecently" (
 
 -- CreateTable
 CREATE TABLE "_ArtistProfileToTrack" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_AlbumToArtistProfile" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_TrackToUserPlaylist" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "Subscriber_email_key" ON "Subscriber"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "UserProfile_userId_key" ON "UserProfile"("userId");
+CREATE UNIQUE INDEX "UserProfile_email_key" ON "UserProfile"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "PasswordResetRequest_token_key" ON "PasswordResetRequest"("token");
@@ -188,9 +190,6 @@ CREATE UNIQUE INDEX "_TrackToUserPlaylist_AB_unique" ON "_TrackToUserPlaylist"("
 
 -- CreateIndex
 CREATE INDEX "_TrackToUserPlaylist_B_index" ON "_TrackToUserPlaylist"("B");
-
--- AddForeignKey
-ALTER TABLE "UserProfile" ADD CONSTRAINT "UserProfile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserProfile" ADD CONSTRAINT "UserProfile_playedRecentlyId_fkey" FOREIGN KEY ("playedRecentlyId") REFERENCES "PlayedRecently"("id") ON DELETE SET NULL ON UPDATE CASCADE;
