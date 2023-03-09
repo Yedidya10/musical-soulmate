@@ -3,7 +3,7 @@ import PageTemplate, { IPageTemplate } from '.'
 import { mockPageTemplateProps } from './PageTemplate.mocks'
 
 export default {
-  title: 'pages/Page',
+  title: 'templates/PageTemplate',
   component: PageTemplate,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {},
