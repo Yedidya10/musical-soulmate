@@ -1,13 +1,25 @@
-import '@/styles/globals.scss'
-import { AppProps } from 'next/app'
+import type { AppProps } from 'next/app'
+import { Inter } from '@next/font/google'
+
+import { ApolloProvider } from '@apollo/client'
+import apolloClient from '../lib/apollo'
 import { SessionProvider } from 'next-auth/react'
+import { appWithTranslation } from 'next-i18next'
+
 import { NextPageWithLayout } from './page'
+
+import '@/styles/globals.scss'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--inter-font',
+})
 
 interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout
 }
 
-export default function App({
+function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) {
@@ -16,7 +28,15 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      {getLayout(<Component {...pageProps} />)}
+      <ApolloProvider client={apolloClient}>
+        {getLayout(
+          <main className={inter.variable}>
+            <Component {...pageProps} />
+          </main>
+        )}
+      </ApolloProvider>
     </SessionProvider>
   )
 }
+
+export default appWithTranslation(App)
