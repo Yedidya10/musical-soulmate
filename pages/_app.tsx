@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app'
 import { Inter } from '@next/font/google'
 
 import { ApolloProvider } from '@apollo/client'
-import apolloClient from '../lib/apollo'
+import apolloClient from '../lib/apolloClient'
 import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
 
