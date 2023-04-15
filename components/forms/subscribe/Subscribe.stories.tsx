@@ -1,22 +1,23 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryObj } from '@storybook/react'
 import Subscribe, { ISubscribe } from './Subscribe'
 import { mockSubscribeProps } from './Subscribe.mocks'
 
-export default {
-  title: 'forms/Subscribe',
+const meta: Meta<typeof Subscribe> = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Forms/Subscribe',
   component: Subscribe,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
+  /* 👇 The argTypes prop is optional.
+   * See https://storybook.js.org/docs/react/api/argtypes
+   * to learn how to configure args for your stories
+   * and https://storybook.js.org/docs/react/writing-stories/args
+   * to learn how to use args in your stories
+   * and https://storybook.js.org/docs/react/writing-stories/args#setting-args-through-the-url
+   * to learn how to set args through the URL
+  */
   argTypes: {},
-} as ComponentMeta<typeof Subscribe>
+};
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof Subscribe> = (args) => (
-  <Subscribe {...args} />
-)
-
-export const Base = Template.bind({})
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-
-Base.args = {
-  ...mockSubscribeProps.base,
-} as ISubscribe
+export default meta;
