@@ -9,6 +9,8 @@
   "slide3ImageAlt": "סלייד תמונה 3",
   "slide3Title": "נהל את המוזיקה שלך",
   "slide3Description": "קבל גישה לכלים שונים כדי לנהל את המוזיקה שלך בצורה נוחה ומהירה",
-  "labelText": "הירשם לאירוע השקת האפליקציה במדינה שלך",
-  "emailPlaceholder": "אימייל"
+  "emailLabel": "הירשם לאירוע השקת האפליקציה במדינה שלך",
+  "countryLabel": "מדינה",
+  "emailPlaceholder": "אימייל",
+  "countryPlaceholder": "לדוגמא: ישראל"
 }
