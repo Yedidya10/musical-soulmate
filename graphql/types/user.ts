@@ -1,11 +1,9 @@
 import { builder } from '../builder'
 
-builder.prismaObject('UserProfile', {
+builder.prismaObject('Subscriber', {
   fields: (t) => ({
     id: t.exposeID('id'),
     email: t.exposeString('email'),
-    // language: t.exposeString('language'),
-    // country: t.exposeString('country'),
   }),
 })
 

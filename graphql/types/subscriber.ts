@@ -2,11 +2,10 @@ import { builder } from '../builder'
 import prisma from '../../lib/prisma'
 
 builder.prismaObject('Subscriber', {
+  name: 'Subscriber',
   fields: (t) => ({
     id: t.exposeID('id'),
     email: t.exposeString('email'),
-    // language: t.exposeString('language'),
-    // country: t.exposeString('country'),
     // createdAt: t.expose('createdAt', { type: 'Date' }),
   }),
 })
