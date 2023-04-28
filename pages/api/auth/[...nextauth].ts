@@ -1,8 +1,8 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import { SupabaseAdapter } from '@next-auth/supabase-adapter'
-import AppleProvider from 'next-auth/providers/apple'
+// import AppleProvider from 'next-auth/providers/apple'
 import SpotifyProvider from 'next-auth/providers/spotify'
-import GoogleProvider from 'next-auth/providers/google'
+// import GoogleProvider from 'next-auth/providers/google'
 import spotifyApi, { SPOTIFY_LOGIN_URL } from '../../../lib/spotify'
 import jwt from 'jsonwebtoken'
 
@@ -70,7 +70,10 @@ export const authOptions: NextAuthOptions = {
       }
 
       // Return the token if the access token has not expired yet
-      if (token.accessTokenExpires && token.accessTokenExpires > Date.now()) {
+      if (
+        typeof token.accessTokenExpires === 'number' &&
+        Date.now() < token.accessTokenExpires
+      ) {
         console.log('TOKEN NOT EXPIRED')
         return token
       }
