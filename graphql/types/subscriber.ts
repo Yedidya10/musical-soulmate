@@ -1,5 +1,5 @@
-import { builder } from '../builder'
 import prisma from '../../lib/prisma'
+import { builder } from '../builder'
 
 builder.prismaObject('Subscriber', {
   name: 'Subscriber',
