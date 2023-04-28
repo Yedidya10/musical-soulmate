@@ -12,5 +12,6 @@
   "emailLabel": "הירשם לאירוע השקת האפליקציה במדינה שלך",
   "countryLabel": "מדינה",
   "emailPlaceholder": "אימייל",
-  "countryPlaceholder": "לדוגמא: ישראל"
+  "countryPlaceholder": "לדוגמא: ישראל",
+  "providersLogin": "התחבר עם"
 }

@@ -12,5 +12,6 @@
   "emailLabel": "Subscribe for the app launch event in your country",
   "countryLabel": "Select your country",
   "emailPlaceholder": "Enter your email",
-  "countryPlaceholder": "example: United States"
+  "countryPlaceholder": "example: United States",
+  "providersLogin": "Login with"
 }
