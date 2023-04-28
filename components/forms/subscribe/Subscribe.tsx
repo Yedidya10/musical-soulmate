@@ -31,6 +31,7 @@ const Subscribe: React.FC<ISubscribe> = ({
       <label className={styles.label}>
         {emailLabelText}
         <input
+          dir='ltr'
           className={styles.input}
           type="email"
           name="email"
