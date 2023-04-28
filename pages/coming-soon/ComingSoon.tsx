@@ -1,19 +1,17 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 
 import { gql, useMutation } from '@apollo/client'
-import apolloClient from '../../lib/apolloClient'
-import type { Subscriber } from '@prisma/client'
-import prisma from '../../lib/prisma'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import apolloClient from '@/lib/apolloClient'
 
 import styles from './ComingSoon.module.scss'
 
-import Subscribe from '../../components/forms/subscribe/Subscribe'
-import LpSlider from '../../components/LpSlider/LpSlider'
 import { useState } from 'react'
+import LpSlider from '@/components/LpSlider/LpSlider'
+import Subscribe from '@/components/forms/subscribe/Subscribe'
+import ProvidersLogin from '@/components/providersLogin/ProvidersLogin'
 
 export interface IComingSoon {
   sampleTextProp: string
@@ -49,14 +47,8 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
   const [language, setLanguage] = useState('')
   const [country, setCountry] = useState('')
 
-  const { locale, locales, push } = useRouter()
+  const { locale } = useRouter()
   const { t } = useTranslation()
-
-  // const [createSubscriber, { data, loading, error }] =
-  //   useMutation(CREATE_SUBSCRIBER)
-
-  // if (loading) return <p>Submitting...</p>
-  // if (error) return <p>Oh no... {error.message}</p>
 
   const [createSubscriber] = useMutation(CREATE_SUBSCRIBER, {
     client: apolloClient,
@@ -101,10 +93,30 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
       const { data } = await createSubscriber({
         variables: {
           email,
-          language,
+          language: locale || language,
           country,
         },
       })
+
+      // The next step is to send the data to the backend
+      
+      const res = await fetch('/api/graphql', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+
+      if (res.status === 201) {
+        setEmail('')
+        setLanguage('')
+        setCountry('')
+
+      } else {
+        console.log('Error:', res)
+      }
+
+
+
       console.log('Data:', data)
     } catch (error) {
       console.log('Error:', error)
@@ -159,6 +171,8 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
             setCountry={setCountry}
           />
         </div>
+        {/* @ts-ignore */}
+        <ProvidersLogin providersLoginText={t('comingSoon:providersLogin')} />
       </main>
     </>
   )

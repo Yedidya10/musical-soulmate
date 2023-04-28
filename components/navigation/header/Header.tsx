@@ -1,29 +1,17 @@
-import Link from 'next/link'
+import Image from 'next/image'
+
+import MainNav from '../mainNav/MainNav'
+import styles from './Header.module.scss'
 
 export interface IHeader extends React.ComponentPropsWithoutRef<'header'> {}
 
-const Header: React.FC<IHeader> = ({ className, ...headerProps }) => {
+const Header: React.FC<IHeader> = ({ ...headerProps }) => {
   return (
-    <header
-      {...headerProps}
-      className={`w-full flex flex-row justify-between ${className}`}
-    >
-      <div className="space-x-5 m-5">
-        <Link href="/">
-          <a className="hover:underline">Home</a>
-        </Link>
-        <Link href="/">
-          <a className="hover:underline">Store</a>
-        </Link>
+    <header className={styles.header} {...headerProps}>
+      <div className={styles.headerContent}>
+        <Image src="/logo.svg" alt="Logo" width={50} height={50} />
       </div>
-      <div className="space-x-5 m-5">
-        <Link href="/">
-          <a className="hover:underline hidden sm:inline">Gmail</a>
-        </Link>
-        <Link href="/">
-          <a className="hover:underline hidden sm:inline">Images</a>
-        </Link>
-      </div>
+      <MainNav />
     </header>
   )
 }
