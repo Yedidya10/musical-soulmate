@@ -33,7 +33,8 @@
     "**/*.tsx",
     "pages/_app.tsx",
     "pages/_app.tsx",
-    "next-i18next.config.js"
+    "next-i18next.config.js",
+    "lib/supabaseClient.js"
   ],
   "exclude": ["node_modules"]
 }
