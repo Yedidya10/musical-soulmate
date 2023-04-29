@@ -47,6 +47,7 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
   const [language, setLanguage] = useState('')
   const [country, setCountry] = useState('')
 
+  //useMutation Hook
   const [createSubscriberMutation, { data, loading }] = useMutation(CREATE_SUBSCRIBER);
   const { locale } = useRouter()
   const { t } = useTranslation()
@@ -91,14 +92,7 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
     }
 
     try {
-      const { data } = await createSubscriber({
-        variables: {
-          email,
-          language: locale || language,
-          country,
-        },
-      })
-
+      // converting form data to json
       const formData = new FormData(e.target as HTMLFormElement);
       const object: {[x: string]: string | File} = {};
       formData.forEach(function(value, key){
@@ -106,6 +100,7 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
       });
       const json = object;
 
+      // calling createSubscribeMutation
       createSubscriberMutation({ variables: json })
       .then(d => {
         console.log(d);
