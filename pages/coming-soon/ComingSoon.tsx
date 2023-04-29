@@ -107,7 +107,14 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
       const json = object;
 
       createSubscriberMutation({ variables: json })
-      .then(d => console.log(d));
+      .then(d => {
+        console.log(d);
+        alert("Added, check console");
+      })
+      .catch(err => {
+        alert('ERROR, check console');
+        console.log(err);
+      });
     } catch (error) {
       console.log('Error:', error)
     }
