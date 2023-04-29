@@ -1,17 +1,17 @@
-import Head from 'next/head'
-import { useRouter } from 'next/router'
-
+import Subscribe from '@/components/forms/subscribe/Subscribe'
+import LpSlider from '@/components/LpSlider/LpSlider'
+import ProvidersLogin from '@/components/providersLogin/ProvidersLogin'
+import apolloClient from '@/lib/apolloClient'
 import { gql, useMutation } from '@apollo/client'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import apolloClient from '@/lib/apolloClient'
-
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 import styles from './ComingSoon.module.scss'
 
-import { useState } from 'react'
-import LpSlider from '@/components/LpSlider/LpSlider'
-import Subscribe from '@/components/forms/subscribe/Subscribe'
-import ProvidersLogin from '@/components/providersLogin/ProvidersLogin'
+
+
 
 export interface IComingSoon {
   sampleTextProp: string
@@ -24,8 +24,8 @@ const CREATE_SUBSCRIBER = gql`
     $language: String!
     $country: String!
   ) {
-    createSubscriber(
-      data: { email: $email, language: $language, country: $country }
+    addSubscriber(
+      input: { email: $email, language: $language, country: $country }
     ) {
       id
       email
@@ -47,6 +47,7 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
   const [language, setLanguage] = useState('')
   const [country, setCountry] = useState('')
 
+  const [createSubscriberMutation, { data, loading }] = useMutation(CREATE_SUBSCRIBER);
   const { locale } = useRouter()
   const { t } = useTranslation()
 
@@ -98,26 +99,15 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
         },
       })
 
-      // The next step is to send the data to the backend
-      
-      const res = await fetch('/api/graphql', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
+      const formData = new FormData(e.target as HTMLFormElement);
+      const object: {[x: string]: string | File} = {};
+      formData.forEach(function(value, key){
+          object[key] = value;
+      });
+      const json = object;
 
-      if (res.status === 201) {
-        setEmail('')
-        setLanguage('')
-        setCountry('')
-
-      } else {
-        console.log('Error:', res)
-      }
-
-
-
-      console.log('Data:', data)
+      createSubscriberMutation({ variables: json })
+      .then(d => console.log(d));
     } catch (error) {
       console.log('Error:', error)
     }

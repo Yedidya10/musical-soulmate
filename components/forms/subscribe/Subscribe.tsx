@@ -42,6 +42,16 @@ const Subscribe: React.FC<ISubscribe> = ({
         />
       </label>
       <label className={styles.label}>
+        Language
+        <input
+          dir='ltr'
+          className={styles.input}
+          type="text"
+          name="language"
+          required
+        />
+      </label>
+      <label className={styles.label}>
         {countryLabelText}
         <input
           className={styles.input}
