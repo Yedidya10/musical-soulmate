@@ -10,9 +10,6 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import styles from './ComingSoon.module.scss'
 
-
-
-
 export interface IComingSoon {
   sampleTextProp: string
 }
@@ -44,72 +41,74 @@ export async function getStaticProps({ locale }: { locale: string }) {
 
 const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
   const [email, setEmail] = useState('')
-  const [language, setLanguage] = useState('')
   const [country, setCountry] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  //useMutation Hook
-  const [createSubscriberMutation, { data, loading }] = useMutation(CREATE_SUBSCRIBER);
   const { locale } = useRouter()
   const { t } = useTranslation()
 
-  const [createSubscriber] = useMutation(CREATE_SUBSCRIBER, {
-    client: apolloClient,
-    update(cache, { data: { createSubscriber } }) {
-      cache.modify({
-        fields: {
-          subscribers(existingSubscribers = []) {
-            const newSubscriberRef = cache.writeFragment({
-              data: createSubscriber,
-              fragment: gql`
-                fragment NewSubscriber on Subscriber {
-                  id
-                  email
-                  language
-                  country
-                }
-              `,
-            })
-            return [...existingSubscribers, newSubscriberRef]
+  //useMutation Hook
+  const [createSubscriberMutation, { data, loading }] = useMutation(
+    CREATE_SUBSCRIBER,
+    {
+      client: apolloClient,
+      update(cache, { data: { createSubscriber } }) {
+        cache.modify({
+          fields: {
+            subscribers(existingSubscribers = []) {
+              const newSubscriberRef = cache.writeFragment({
+                data: createSubscriber,
+                fragment: gql`
+                  fragment NewSubscriber on Subscriber {
+                    id
+                    email
+                    language
+                    country
+                  }
+                `,
+              })
+              return [...existingSubscribers, newSubscriberRef]
+            },
           },
-        },
-      })
-    },
-    onCompleted() {
-      setEmail('')
-      setLanguage('')
-      setCountry('')
-    },
-    onError(error) {
-      console.error('Failed to create subscriber', error)
-    },
-  })
+        })
+      },
+      onCompleted() {
+        setEmail('')
+        setCountry('')
+      },
+      onError(error) {
+        console.error('Failed to create subscriber', error)
+      },
+    }
+  )
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    if (locale !== undefined) {
-      setLanguage(locale)
-    }
+    setErrorMessage('')
 
     try {
       // converting form data to json
-      const formData = new FormData(e.target as HTMLFormElement);
-      const object: {[x: string]: string | File} = {};
-      formData.forEach(function(value, key){
-          object[key] = value;
-      });
-      const json = object;
+      const formData = new FormData(e.target as HTMLFormElement)
+      const object: { [x: string]: string | File } = {}
+      formData.forEach(function (value, key) {
+        object[key] = value
+      })
+      const json = { ...object, language: locale }
 
       // calling createSubscribeMutation
       createSubscriberMutation({ variables: json })
-      .then(d => {
-        console.log(d);
-        alert("Added, check console");
-      })
-      .catch(err => {
-        alert('ERROR, check console');
-        console.log(err);
-      });
+        .then((d) => {
+          console.log(d)
+          if (d.errors) {
+            setErrorMessage(d.errors[0]?.message)
+          } else {
+            setErrorMessage('')
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          setErrorMessage(err.message)
+        })
     } catch (error) {
       console.log('Error:', error)
     }
@@ -162,6 +161,7 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
             setEmail={setEmail}
             setCountry={setCountry}
           />
+          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         </div>
         {/* @ts-ignore */}
         <ProvidersLogin providersLoginText={t('comingSoon:providersLogin')} />
