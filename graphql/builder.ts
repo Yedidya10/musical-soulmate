@@ -1,6 +1,6 @@
 import SchemaBuilder from '@pothos/core'
 import PrismaPlugin from '@pothos/plugin-prisma'
-import ErrorsPlugin from '@pothos/plugin-errors';
+import ErrorsPlugin from '@pothos/plugin-errors'
 import type PrismaTypes from '@pothos/plugin-prisma/generated'
 import RelayPlugin from '@pothos/plugin-relay'
 import prisma from '../lib/prisma'
@@ -32,4 +32,4 @@ builder.queryType({
   }),
 })
 
-builder.mutationType({});
+builder.mutationType({})
