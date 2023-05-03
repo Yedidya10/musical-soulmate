@@ -1,5 +1,6 @@
 import SchemaBuilder from '@pothos/core'
 import PrismaPlugin from '@pothos/plugin-prisma'
+import ErrorsPlugin from '@pothos/plugin-errors';
 import type PrismaTypes from '@pothos/plugin-prisma/generated'
 import RelayPlugin from '@pothos/plugin-relay'
 import prisma from '../lib/prisma'
@@ -13,14 +14,15 @@ export const builder = new SchemaBuilder<{
     }
   }
 }>({
-  plugins: [PrismaPlugin, RelayPlugin],
+  plugins: [PrismaPlugin, RelayPlugin, ErrorsPlugin],
   relayOptions: {},
   prisma: {
     client: prisma,
   },
+  errorOptions: {
+    defaultTypes: [],
+  },
 })
-
-// builder.addScalarType('Date', DateResolver, {})
 
 builder.queryType({
   fields: (t) => ({
