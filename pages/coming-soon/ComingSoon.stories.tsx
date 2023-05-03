@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react'
-import ComingSoon from './ComingSoon'
+import ComingSoon from '.'
 
 const meta: Meta<typeof ComingSoon> = {
   /* 👇 The title prop is optional.

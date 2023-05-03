@@ -1,4 +1,4 @@
-import { IComingSoon } from './ComingSoon'
+import { IComingSoon } from '.'
 
 const base: IComingSoon = {
   sampleTextProp: 'Hello world!',
