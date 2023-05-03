@@ -31,25 +31,16 @@ const Subscribe: React.FC<ISubscribe> = ({
       <label className={styles.label}>
         {emailLabelText}
         <input
-          dir='ltr'
+          dir="ltr"
           className={styles.input}
           type="email"
           name="email"
           value={emailValue}
           required
           placeholder={emailPlaceholder}
-          onChange={(e) => {setEmail(e.target.value)}}
-        />
-      </label>
-      {/* Added language field */}
-      <label className={styles.label}>
-        Language
-        <input
-          dir='ltr'
-          className={styles.input}
-          type="text"
-          name="language"
-          required
+          onChange={(e) => {
+            setEmail(e.target.value)
+          }}
         />
       </label>
       <label className={styles.label}>
@@ -61,7 +52,9 @@ const Subscribe: React.FC<ISubscribe> = ({
           value={countryValue}
           required
           placeholder={countryPlaceholder}
-          onChange={(e) => {setCountry(e.target.value)}}
+          onChange={(e) => {
+            setCountry(e.target.value)
+          }}
         />
       </label>
       <button
