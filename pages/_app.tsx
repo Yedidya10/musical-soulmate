@@ -1,14 +1,14 @@
-import type { AppProps } from 'next/app'
-import { Inter } from '@next/font/google'
-
+import '@/styles/globals.scss'
 import { ApolloProvider } from '@apollo/client'
-import apolloClient from '../lib/apolloClient'
+import { Inter } from '@next/font/google'
 import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
-
+import type { AppProps } from 'next/app'
+import apolloClient from '../lib/apolloClient'
 import { NextPageWithLayout } from './page'
 
-import '@/styles/globals.scss'
+
+
 
 const inter = Inter({
   subsets: ['latin'],

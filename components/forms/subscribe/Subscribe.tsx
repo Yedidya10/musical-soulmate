@@ -41,6 +41,17 @@ const Subscribe: React.FC<ISubscribe> = ({
           onChange={(e) => {setEmail(e.target.value)}}
         />
       </label>
+      {/* Added language field */}
+      <label className={styles.label}>
+        Language
+        <input
+          dir='ltr'
+          className={styles.input}
+          type="text"
+          name="language"
+          required
+        />
+      </label>
       <label className={styles.label}>
         {countryLabelText}
         <input
