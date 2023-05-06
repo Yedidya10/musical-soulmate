@@ -24,13 +24,13 @@ const CREATE_SUBSCRIBER = gql`
     addSubscriber(
       input: { email: $email, language: $language, country: $country }
     ) {
-      id
       email
       language
       country
     }
   }
 `
+
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
@@ -99,15 +99,11 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
       createSubscriberMutation({ variables: json })
         .then((d) => {
           console.log(d)
-          if (d.errors) {
-            setErrorMessage(d.errors[0]?.message)
-          } else {
-            setErrorMessage('')
-          }
+          alert('Added, check console')
         })
         .catch((err) => {
+          alert('ERROR, check console')
           console.log(err)
-          setErrorMessage(err.message)
         })
     } catch (error) {
       console.log('Error:', error)
