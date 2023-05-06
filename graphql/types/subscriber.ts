@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client'
 import prismaClient from '@/lib/prisma'
 import { builder } from '../builder'
 
@@ -17,7 +16,6 @@ export const CreateSubscriberInput = builder.inputType(
 builder.prismaObject('Subscriber', {
   name: 'Subscriber',
   fields: (t) => ({
-    id: t.exposeID('id'),
     email: t.exposeString('email'),
     country: t.exposeString('country'),
     language: t.exposeString('language'),
@@ -28,7 +26,7 @@ builder.queryField('subscribers', (t) =>
   t.prismaField({
     type: ['Subscriber'],
     resolve: (query, _parent, _args, _ctx, _info) =>
-    prismaClient.subscriber.findMany({ ...query }),
+      prismaClient.subscriber.findMany({ ...query }),
   })
 )
 
@@ -48,9 +46,22 @@ builder.mutationField('addSubscriber', (t) =>
     // resolver for the mutation. creates a subscriber in database
     resolve: async (query, _parent, _args, _ctx, _info) => {
       try {
-        return prismaClient.subscriber.create({ data: _args.input })
+        const data = await prismaClient.subscriber.create({
+          data: {
+            ..._args.input,
+          },
+        })
+        return data
       } catch (err: any) {
-        throw new Error(err.message)
+        let errMessage = ''
+        if (
+          err?.message?.indexOf(
+            'Unique constraint failed on the fields: (`email`)'
+          ) > -1
+        ) {
+          errMessage = 'Email should be unique'
+        }
+        throw new Error(errMessage || err?.message || 'Unknown error')
       }
     },
   })
