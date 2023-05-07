@@ -5,10 +5,7 @@ import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import apolloClient from '../lib/apolloClient'
-import { NextPageWithLayout } from './page'
-
-
-
+import { NextPageWithLayout } from '../types/page'
 
 const inter = Inter({
   subsets: ['latin'],
