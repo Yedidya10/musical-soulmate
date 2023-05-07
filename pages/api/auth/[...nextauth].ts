@@ -6,7 +6,8 @@ import SpotifyProvider from 'next-auth/providers/spotify'
 import spotifyApi, { SPOTIFY_LOGIN_URL } from '../../../lib/spotify'
 import jwt from 'jsonwebtoken'
 
-const { SPOTIFY_CLIENT_ID = '', SPOTIFY_CLIENT_SECRET = '' } = process.env
+const spotifyClientId = process.env.SPOTIFY_CLIENT_ID ?? ''
+const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET ?? ''
 
 async function refreshAccessToken(token: any) {
   try {
@@ -37,8 +38,8 @@ export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
     SpotifyProvider({
-      clientId: SPOTIFY_CLIENT_ID,
-      clientSecret: SPOTIFY_CLIENT_SECRET,
+      clientId: spotifyClientId,
+      clientSecret: spotifyClientSecret,
       authorization: SPOTIFY_LOGIN_URL,
     }),
     // AppleProvider({
