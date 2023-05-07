@@ -95,6 +95,7 @@
     "sass-loader": "^13.2.2",
     "storybook": "^7.0.7",
     "style-loader": "^3.3.1",
+    "supabase": "^1.55.1",
     "ts-node": "^10.9.1",
     "util": "^0.12.5"
   },
