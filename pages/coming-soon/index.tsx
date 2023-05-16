@@ -1,17 +1,18 @@
-import Subscribe from '@/components/forms/subscribe/Subscribe'
 import LpSlider from '@/components/LpSlider/LpSlider'
-import ProvidersLogin from '@/components/providersLogin/ProvidersLogin'
+import Subscribe from '@/components/forms/subscribe/Subscribe'
+import SignIn from '@/components/signIn/SignIn'
 import apolloClient from '@/lib/apolloClient'
 import { gql, useMutation } from '@apollo/client'
+import { getProviders, signIn } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './ComingSoon.module.scss'
 
 export interface IComingSoon {
-  sampleTextProp: string
+  providers: object
 }
 
 // Define a GraphQL mutation that create a new subscriber
@@ -31,21 +32,40 @@ const CREATE_SUBSCRIBER = gql`
   }
 `
 
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['comingSoon', 'common'])),
-    },
+export async function getServerSideProps({ locale }: { locale: string }) {
+  try {
+    const providers = await getProviders()
+
+    return {
+      props: {
+        ...(await serverSideTranslations(locale, ['comingSoon', 'common', 'countries'])),
+        providers,
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching providers:', error)
   }
 }
 
-const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
+const ComingSoon: React.FC<IComingSoon> = ({ providers }) => {
   const [email, setEmail] = useState('')
   const [country, setCountry] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [htmlDir, setHtmlDir] = useState('')
 
   const { locale } = useRouter()
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (
+      locale !== undefined &&
+      ['ar', 'arc', 'az', 'dv', 'ku', 'ckb', 'ur', 'he', 'fa'].includes(locale)
+    ) {
+      setHtmlDir('rtl')
+    } else {
+      setHtmlDir('ltr')
+    }
+  }, [locale])
 
   //useMutation Hook
   const [createSubscriberMutation, { data, loading }] = useMutation(
@@ -110,17 +130,6 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
     }
   }
 
-  const dir = () => {
-    if (
-      locale !== undefined &&
-      ['ar', 'arc', 'az', 'dv', 'ku', 'ckb', 'ur', 'he', 'fa'].includes(locale)
-    ) {
-      return 'rtl'
-    } else {
-      return 'ltr'
-    }
-  }
-
   return (
     <>
       <Head>
@@ -128,10 +137,9 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
         <meta name="description" content="coming soon landing page" />
       </Head>
       <main className={styles.main}>
-        <p>{sampleTextProp}</p>
         <div className={styles.slider}>
           <LpSlider
-            dir={dir()}
+            dir={htmlDir}
             splideAriaLabel={t('comingSoon:sliderAriaLabel')}
             slide1ImageAlt={t('comingSoon:slide1ImageAlt')}
             slide1Title={t('comingSoon:slide1Title')}
@@ -146,11 +154,12 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
         </div>
         <div className={styles.subscribe}>
           <Subscribe
+            subscribeTitle={t('comingSoon:subscribeTitle')}
             emailLabelText={t('comingSoon:emailLabel')}
             countryLabelText={t('comingSoon:countryLabel')}
             emailPlaceholder="example@example.com"
             countryPlaceholder={t('comingSoon:countryPlaceholder')}
-            submitButtonText={t('common:send')}
+            submitButtonText={t('common:subscribe')}
             emailValue={email}
             countryValue={country}
             handleSubmit={handleSubmit}
@@ -159,8 +168,11 @@ const ComingSoon: React.FC<IComingSoon> = ({ sampleTextProp }) => {
           />
           {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         </div>
-        {/* @ts-ignore */}
-        <ProvidersLogin providersLoginText={t('comingSoon:providersLogin')} />
+        <SignIn
+          providersLoginText={t('comingSoon:providersLogin')}
+          providers={providers}
+          signIn={signIn}
+        />
       </main>
     </>
   )

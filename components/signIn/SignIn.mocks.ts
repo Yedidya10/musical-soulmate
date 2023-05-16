@@ -1,6 +1,6 @@
-import { IProvidersLogin } from './ProvidersLogin'
+import { ISignIn } from './SignIn'
 
-const base: IProvidersLogin = {
+const base: ISignIn = {
   providersLoginText: 'Login with',
   providers: {
     spotify: {
@@ -12,8 +12,9 @@ const base: IProvidersLogin = {
       params: { grant_type: 'authorization_code' },
     },
   },
+  signIn: Function,
 }
 
-export const mockProvidersLoginProps = {
+export const mockSignInProps = {
   base,
 }

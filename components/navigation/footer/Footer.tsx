@@ -1,13 +1,14 @@
+import MusicPlayer from '@/components/musicPlayer/MusicPlayer'
+import style from './Footer.module.scss'
+import { Box } from '@mui/material'
+
 export interface IFooter extends React.ComponentPropsWithoutRef<'footer'> {}
 
 const Footer: React.FC<IFooter> = ({ className, ...footerProps }) => {
   return (
-    <footer
-      {...footerProps}
-      className={`w-full p-5 bg-slate-100 text-slate-500 ${className}`}
-    >
-      <p>Canada</p>
-    </footer>
+    <Box component="footer" className={style.footer} {...footerProps}>
+      <MusicPlayer />
+    </Box>
   )
 }
 

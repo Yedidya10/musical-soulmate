@@ -1,17 +1,16 @@
-import Link from 'next/link'
 import { Inter } from '@next/font/google'
-import { useRouter } from 'next/router';
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-import styles from './MainNav.module.scss'
 import {
-  AiOutlineHome,
+  AiFillCompass,
   AiFillHome,
   AiOutlineCompass,
-  AiFillCompass,
+  AiOutlineHome,
 } from 'react-icons/ai'
 import { BsChatText, BsChatTextFill } from 'react-icons/bs'
 import { HiOutlineUserCircle, HiUserCircle } from 'react-icons/hi'
-import { useEffect } from 'react';
+import styles from './MainNav.module.scss'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,26 +22,30 @@ const MainNav: React.FC<IMainNav> = () => {
   const router = useRouter()
 
   // Change the color of the nav icons according to the current page
-  const homeIcon = router.pathname === '/' ? (
-    <AiFillHome className={styles.navIcon} />
-  ) : (
-    <AiOutlineHome className={styles.navIcon} />
-  )
-  const discoverIcon = router.pathname === '/discover' ? (
-    <AiFillCompass className={styles.navIcon} />
-  ) : (
-    <AiOutlineCompass className={styles.navIcon} />
-  )
-  const chatIcon = router.pathname === '/chat' ? (
-    <BsChatTextFill className={styles.navIcon} />
-  ) : (
-    <BsChatText className={styles.navIcon} />
-  )
-  const profileIcon = router.pathname === '/profile' ? (
-    <HiUserCircle className={styles.navIcon} />
-  ) : (
-    <HiOutlineUserCircle className={styles.navIcon} />
-  )
+  const homeIcon =
+    router.pathname === '/' ? (
+      <AiFillHome className={styles.navIcon} />
+    ) : (
+      <AiOutlineHome className={styles.navIcon} />
+    )
+  const discoverIcon =
+    router.pathname === '/discover' ? (
+      <AiFillCompass className={styles.navIcon} />
+    ) : (
+      <AiOutlineCompass className={styles.navIcon} />
+    )
+  const chatIcon =
+    router.pathname === '/chat' ? (
+      <BsChatTextFill className={styles.navIcon} />
+    ) : (
+      <BsChatText className={styles.navIcon} />
+    )
+  const profileIcon =
+    router.pathname === '/profile' ? (
+      <HiUserCircle className={styles.navIcon} />
+    ) : (
+      <HiOutlineUserCircle className={styles.navIcon} />
+    )
 
   return (
     <nav className={`${styles.nav} ${inter.className}`}>

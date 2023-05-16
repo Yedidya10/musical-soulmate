@@ -1,13 +1,13 @@
 import { Meta } from '@storybook/react'
-import ProvidersLogin from './ProvidersLogin'
+import Profile from '.'
 
-const meta: Meta<typeof ProvidersLogin> = {
+const meta: Meta<typeof Profile> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'Logins/ProvidersLogin',
-  component: ProvidersLogin,
+  title: 'Pages/Profile',
+  component: Profile,
   /* 👇 The argTypes prop is optional.
    * See https://storybook.js.org/docs/react/api/argtypes
    * to learn how to configure args for your stories
