@@ -1,5 +1,3 @@
-import { type } from 'os'
-
 export type CountryDataType = {
   code: string
   label?: string
