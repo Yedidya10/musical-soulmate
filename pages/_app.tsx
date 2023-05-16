@@ -6,19 +6,29 @@ import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import apolloClient from '../lib/apolloClient'
 import { NextPageWithLayout } from '../types/page'
+import { CacheProvider } from '@emotion/react'
+import createEmotionCache from '../src/createEmotionCache'
+import { CssBaseline } from '@mui/material'
+import { ThemeProvider } from '@mui/material/styles'
+import theme from '../src/theme'
+import { RecoilRoot } from 'recoil'
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--inter-font',
-})
+const clientSideEmotionCache = createEmotionCache()
+
+// const inter = Inter({
+//   subsets: ['latin'],
+//   variable: '--inter-font',
+// })
 
 interface AppPropsWithLayout extends AppProps {
   Component: NextPageWithLayout
+  emotionCache?: ReturnType<typeof createEmotionCache>
 }
 
 function App({
   Component,
   pageProps: { session, ...pageProps },
+  emotionCache = clientSideEmotionCache,
 }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page) => page)
@@ -26,11 +36,12 @@ function App({
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={apolloClient}>
-        {getLayout(
-          <main className={inter.variable}>
-            <Component {...pageProps} />
-          </main>
-        )}
+        <CacheProvider value={emotionCache}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <RecoilRoot>{getLayout(<Component {...pageProps} />)}</RecoilRoot>
+          </ThemeProvider>
+        </CacheProvider>
       </ApolloProvider>
     </SessionProvider>
   )
