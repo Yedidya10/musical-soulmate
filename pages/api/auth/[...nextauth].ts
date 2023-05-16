@@ -1,13 +1,63 @@
+import spotifyApi, { SPOTIFY_LOGIN_URL } from '@/lib/spotify'
 import NextAuth, { NextAuthOptions } from 'next-auth'
-import { SupabaseAdapter } from '@next-auth/supabase-adapter'
-// import AppleProvider from 'next-auth/providers/apple'
 import SpotifyProvider from 'next-auth/providers/spotify'
-// import GoogleProvider from 'next-auth/providers/google'
-import spotifyApi, { SPOTIFY_LOGIN_URL } from '../../../lib/spotify'
-import jwt from 'jsonwebtoken'
 
-const spotifyClientId = process.env.SPOTIFY_CLIENT_ID ?? ''
-const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET ?? ''
+const spotifyClientId = process.env.SPOTIFY_CLIENT_ID as string
+const spotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET as string
+
+export const authOptions: NextAuthOptions = {
+  // Configure one or more authentication providers
+  providers: [
+    SpotifyProvider({
+      clientId: spotifyClientId,
+      clientSecret: spotifyClientSecret,
+      authorization: SPOTIFY_LOGIN_URL,
+    }),
+  ],
+  pages: {
+    signIn: '/coming-soon',
+  },
+  secret: process.env.JWT_SECRET,
+  callbacks: {
+    async jwt({ token, user, account }) {
+      // Initial sign in
+      if (account && user) {
+        return {
+          ...token,
+          accessToken: account.access_token,
+          refreshToken: account.refresh_token,
+          username: account.providerAccountId,
+          accessTokenExpires: account.expires_at
+            ? account.expires_at * 1000
+            : undefined,
+          // convert to ms
+        }
+      }
+
+      // Return the token if the access token has not expired yet
+      if (
+        typeof token.accessTokenExpires === 'number' &&
+        Date.now() < token.accessTokenExpires
+      ) {
+        console.log('TOKEN NOT EXPIRED')
+        return token
+      }
+
+      // If the access token has expired, refresh it
+      console.log('TOKEN EXPIRED')
+      return await refreshAccessToken(token)
+    },
+    async session({ session, token }) {
+      // Add property to session, like an access_token from a provider.
+      session.user.accessToken = token.accessToken as string
+      session.user.refreshToken = token.refreshToken as string
+      session.user.username = token.username as string
+
+      return session
+    },
+  },
+  // adapter: PrismaAdapter(prismaClient),
+}
 
 async function refreshAccessToken(token: any) {
   try {
@@ -32,76 +82,6 @@ async function refreshAccessToken(token: any) {
       error: 'RefreshAccessTokenError',
     }
   }
-}
-
-export const authOptions: NextAuthOptions = {
-  // Configure one or more authentication providers
-  providers: [
-    SpotifyProvider({
-      clientId: spotifyClientId,
-      clientSecret: spotifyClientSecret,
-      authorization: SPOTIFY_LOGIN_URL,
-    }),
-    // AppleProvider({
-    //   clientId: process.env.APPLE_CLIENT_ID,
-    //   clientSecret: process.env.APPLE_CLIENT_SECRET,
-    //   //authorization
-    // }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    //   //authorization
-    // }),
-  ],
-  secret: process.env.JWT_SECRET,
-  callbacks: {
-    async jwt({ token, user, account }) {
-      // Initial sign in
-      if (account && user) {
-        return {
-          ...token,
-          accessToken: account.accessToken,
-          refreshToken: account.refreshToken,
-          username: account.providerAccountId,
-          accessTokenExpires: account.expires_at
-            ? account.expires_at * 1000
-            : undefined,
-          // convert to ms
-        }
-      }
-
-      // Return the token if the access token has not expired yet
-      if (
-        typeof token.accessTokenExpires === 'number' &&
-        Date.now() < token.accessTokenExpires
-      ) {
-        console.log('TOKEN NOT EXPIRED')
-        return token
-      }
-
-      // If the access token has expired, refresh it
-      console.log('TOKEN EXPIRED')
-      return await refreshAccessToken(token)
-    },
-    async session({ session, user }) {
-      const signingSecret = process.env.SUPABASE_JWT_SECRET
-      if (signingSecret) {
-        const payload = {
-          aud: 'authenticated',
-          exp: Math.floor(new Date(session.expires).getTime() / 1000),
-          sub: user.id,
-          email: user.email,
-          role: 'authenticated',
-        }
-        session.supabaseAccessToken = jwt.sign(payload, signingSecret)
-      }
-      return session
-    },
-  },
-  adapter: SupabaseAdapter({
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-    secret: process.env.SUPABASE_SERVICE_ROLE_KEY ?? '',
-  }),
 }
 
 export default NextAuth(authOptions)
