@@ -5,12 +5,13 @@ const base: ISubscribe = {
   emailPlaceholder: 'example@example.com',
   countryPlaceholder: 'United States',
   countryLabelText: 'Country',
-  setCountry: () => {},
-  setEmail: () => {},
+  setCountry: () => { },
+  setEmail: () => { },
   emailValue: '',
   countryValue: '',
   submitButtonText: 'Subscribe',
-  handleSubmit: () => {},
+  handleSubmit: () => { },
+  subscribeTitle: ''
 }
 
 export const mockSubscribeProps = {

@@ -1,7 +1,15 @@
 import { ITrackWidget } from './TrackWidget'
 
 const base: ITrackWidget = {
-  sampleTextProp: 'Hello world!',
+  trackId: '',
+  trackNumber: 0,
+  artistName: '',
+  trackName: '',
+  albumName: '',
+  albumImage: '',
+  trackDuration: '',
+  trackUri: '',
+  liked: false
 }
 
 export const mockTrackWidgetProps = {

@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Footer from '../../navigation/footer/Footer'
 import Header from '../../navigation/header/Header'
-import styles from './PrimaryLayout.module.scss'
 
 export interface IPrimaryLayout extends React.ComponentPropsWithoutRef<'div'> {
   headTitle: string

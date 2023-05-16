@@ -1,8 +1,6 @@
 import { IProfile } from '.'
 
-const base: IProfile = {
-  sampleTextProp: 'Hello world!',
-}
+const base: IProfile = {}
 
 export const mockProfileProps = {
   base,

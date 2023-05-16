@@ -11,8 +11,7 @@ import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import { topTracksAtom } from '@/recoil/atoms/topTracksAtom'
 
-export interface IProfile {
-}
+export interface IProfile {}
 
 const Profile: NextPageWithLayout<IProfile> = () => {
   const [topTracks, setTopTracks] = useRecoilState(topTracksAtom)
@@ -25,7 +24,6 @@ const Profile: NextPageWithLayout<IProfile> = () => {
         .getMyTopTracks({
           limit: 10,
           time_range: 'short_term',
-          
         })
         .then((data) => {
           console.log(data)
@@ -43,69 +41,51 @@ const Profile: NextPageWithLayout<IProfile> = () => {
   return (
     <>
       <main className={styles.main}>
-        <PlaylistWrapper
-          playlistName={'Top Tracks'}
-          children={
-            <Playlist
-              sampleTextProp={''}
-              children={
-                <TrackWidget
-                  trackId={'4'}
-                  trackNumber={0}
-                  artistName={'Artist Name'}
-                  trackName={'Track Name'}
-                  albumName={'Album Name'}
-                  albumImage={'https://via.placeholder.com/150'}
-                  trackDuration={'3:24'}
-                  trackUri="spotify:track:4uLU6hMCjMI75M1A2tKUQC"
-                  liked={false}
-                />
-              }
+        <PlaylistWrapper playlistName={'Top Tracks'}>
+          <Playlist sampleTextProp={''}>
+            <TrackWidget
+              trackId={'4'}
+              trackNumber={0}
+              artistName={'Artist Name'}
+              trackName={'Track Name'}
+              albumName={'Album Name'}
+              albumImage={'https://via.placeholder.com/150'}
+              trackDuration={'3:24'}
+              trackUri="spotify:track:4uLU6hMCjMI75M1A2tKUQC"
+              liked={false}
             />
-          }
-        />
-        <PlaylistWrapper
-          playlistName={'Top Artists'}
-          children={
-            <Playlist
-              sampleTextProp={''}
-              children={
-                <TrackWidget
-                  trackId={'5'}
-                  trackNumber={0}
-                  artistName={'Artist Name'}
-                  trackName={'Track Name'}
-                  albumName={'Album Name'}
-                  albumImage={'https://via.placeholder.com/150'}
-                  trackDuration={'3:24'}
-                  trackUri="spotify:track:4uLU6hMCjMI75M1A2tKUQC"
-                  liked={false}
-                />
-              }
+          </Playlist>
+        </PlaylistWrapper>
+        <PlaylistWrapper playlistName={'Top Artists'}>
+          <Playlist sampleTextProp={''}>
+            <TrackWidget
+              trackId={'5'}
+              trackNumber={0}
+              artistName={'Artist Name'}
+              trackName={'Track Name'}
+              albumName={'Album Name'}
+              albumImage={'https://via.placeholder.com/150'}
+              trackDuration={'3:24'}
+              trackUri="spotify:track:4uLU6hMCjMI75M1A2tKUQC"
+              liked={false}
             />
-          }
-        />
-        <PlaylistWrapper
-          playlistName={'Top Genres'}
-          children={
-            <Playlist
-              sampleTextProp={''}
-              children={
-                <TrackWidget
-                  trackId={'6'}
-                  trackNumber={0}
-                  artistName={'Artist Name'}
-                  trackName={'Track Name'}
-                  albumName={'Album Name'}
-                  albumImage={'https://via.placeholder.com/150'}
-                  trackDuration={'3:24'}
-                  trackUri="spotify:track:4uLU6hMCjMI75M1A2tKUQC"
-                  liked={false}
-                />
-              }
+          </Playlist>
+        </PlaylistWrapper>
+        <PlaylistWrapper playlistName={'Top Genres'}>
+          <Playlist sampleTextProp={''}>
+            <TrackWidget
+              trackId={'6'}
+              trackNumber={0}
+              artistName={'Artist Name'}
+              trackName={'Track Name'}
+              albumName={'Album Name'}
+              albumImage={'https://via.placeholder.com/150'}
+              trackDuration={'3:24'}
+              trackUri="spotify:track:4uLU6hMCjMI75M1A2tKUQC"
+              liked={false}
             />
-          }
-        />
+          </Playlist>
+        </PlaylistWrapper>
       </main>
     </>
   )

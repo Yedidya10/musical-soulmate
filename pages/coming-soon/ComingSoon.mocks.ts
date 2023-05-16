@@ -1,7 +1,6 @@
 import { IComingSoon } from '.'
 
 const base: IComingSoon = {
-  sampleTextProp: 'sampleTextProp',
   providers: [
     {
       name: 'sampleName',

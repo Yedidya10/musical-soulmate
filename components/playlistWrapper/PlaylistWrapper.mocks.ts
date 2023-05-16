@@ -1,7 +1,8 @@
 import { IPlaylistWrapper } from './PlaylistWrapper'
 
 const base: IPlaylistWrapper = {
-  sampleTextProp: 'Hello world!',
+  children: [],
+  playlistName: ''
 }
 
 export const mockPlaylistWrapperProps = {
