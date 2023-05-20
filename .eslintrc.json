@@ -9,6 +9,12 @@
       "warn", {
         "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
       }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["@mui/*/*/*", "!@mui/material/test-utils/*"]
+      }
     ]
   }
 }

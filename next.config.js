@@ -6,7 +6,7 @@ const nextConfig = {
   i18n,
   images: {
     domains: ['images.unsplash.com', 'via.placeholder.com', 'flagcdn.com'],
-  },
+  }
 }
 
 module.exports = nextConfig

@@ -1,0 +1,187 @@
+$form-padding-inline: 20px;
+$form-primary-color: #002b5c;
+$form-secondary-color: #6ea8da;
+$form-accent-color: #ff4081;
+$form-neutral-color: #f4f7fc;
+$form-success-color: #4caf50;
+$form-button-color: #8f3bff;
+$form-font-family: 'Inter', sans-serif;
+
+.form {
+  width: 100%;
+  padding-inline: $form-padding-inline;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: flex-start;
+
+  .title {
+    align-self: center;
+    text-align: center;
+    font-weight: 400;
+    color: $form-primary-color;
+    font-family: $form-font-family;
+    font-size: 1.1rem;
+    margin-block-end: 1rem;
+  }
+
+  .submitSuccess {
+    align-self: center;
+    text-align: center;
+    color: $form-success-color;
+    font-weight: 600;
+    font-family: $form-font-family;
+    font-size: 1.1rem;
+    margin-block-end: 1rem;
+  }
+
+  .inputWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .inputError {
+      align-self: flex-start;
+      position: relative;
+      inset-block-start: 105%;
+      width: 100%;
+      padding-inline-start: 0.5rem;
+      animation: fadeIn 0.5s ease;
+    }
+  }
+
+  .button {
+    height: 55px;
+    border-radius: 100vw;
+    font-size: 1rem;
+    font-weight: 700;
+    background: linear-gradient(
+      to right,
+      $form-button-color,
+      darken($form-button-color, 10%)
+    );
+    transition: background 0.5s ease;
+    color: #fff; /* Text color */
+    font-family: $form-font-family;
+    letter-spacing: 2px;
+
+    &:hover,
+    &:active {
+      background: linear-gradient(
+        to right,
+        darken($form-button-color, 10%),
+        $form-button-color
+      );
+    }
+  }
+
+  .input,
+  .autocomplete {
+    width: 100%;
+    border-radius: 100vw;
+    background: $form-neutral-color;
+    transition: border-color 0.3s ease;
+    color: $form-primary-color; /* Text color */
+    font-family: $form-font-family;
+
+    &:hover {
+      border-color: darken($form-primary-color, 10%);
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .title, .submitSuccess {
+      align-self: flex-start;
+      font-size: 1.3rem;
+    }
+  }
+
+  @media screen and (min-width: 1080px) {
+    padding-block-start: 100px;
+
+    .title, .submitSuccess {
+      padding-inline-start: 20px;
+    }
+  }
+
+  &Wrapper {
+    width: calc(100vw - #{$form-padding-inline * 2} - 40px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+
+    .button {
+      min-width: 100%;
+    }
+
+    @media screen and (min-width: 500px) {
+      width: calc(430px);
+    }
+
+    @media screen and (min-width: 668px) {
+      .input {
+        width: 100%;
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      min-width: calc(100vw - #{$form-padding-inline * 2} - 40px);
+      flex-direction: row;
+      justify-content: space-between;
+
+      .button {
+        max-width: 200px;
+        min-width: 200px;
+        font-size: 1.2rem;
+      }
+
+      .inputError {
+        position: absolute;
+        inset-block-start: 105%;
+        width: 100%;
+        height: 10px;
+        padding-inline-start: 0.5rem;
+        animation: fadeIn 0.5s ease;
+      }
+    }
+
+    @media screen and (min-width: 1080px) {
+      min-width: 400px;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .inputWrapper {
+        position: relative;
+        width: initial;
+        display: flex;
+        flex-direction: column;
+
+        .inputError {
+          position: relative;
+          height: 10px;
+          top: 105%;
+          width: 100%;
+          padding-inline-start: 0.5rem;
+        }
+      }
+
+      .input,
+      .autocomplete {
+        width: calc(100vh - $form-padding-inline * 2 - 400px);
+      }
+
+      .title, .submitSuccess {
+        width: 100%;
+        font-size: 1.4rem;
+        margin-block-end: 1.2rem;
+      }
+    }
+  }
+
+  @media screen and (min-width: 1440px) {
+    padding-inline: 0;
+  }
+}
