@@ -1,7 +1,12 @@
+'use client'
+
 // Subscribe.tsx
 import useHtmlDir from '../../../lib/hooks/useHtmlDir'
-import countriesData, { CountryDataType } from '../../../lib/utils/countriesData'
+import countriesData, {
+  CountryDataType,
+} from '../../../lib/utils/countriesData'
 import createCache from '@emotion/cache'
+import rtlPlugin from 'stylis-plugin-rtl'
 import { CacheProvider } from '@emotion/react'
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
@@ -11,7 +16,6 @@ import Typography from '@mui/material/Typography'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { SetStateAction, useEffect, useRef, useState } from 'react'
-import rtlPlugin from 'stylis-plugin-rtl'
 import styles from './Subscribe.module.scss'
 
 export interface ISubscribe {
@@ -25,7 +29,6 @@ export interface ISubscribe {
   submitButtonText: string
   countryRequiredErrorText: string
   emailRequiredErrorText: string
-  registrarSuccessText: string
   setCountry: React.Dispatch<SetStateAction<string>>
   setEmail: React.Dispatch<SetStateAction<string>>
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
@@ -69,7 +72,6 @@ const Subscribe: React.FC<ISubscribe> = ({
   emailValue,
   countryValue,
   submitButtonText,
-  registrarSuccessText,
   setEmail,
   setCountry,
   handleSubmit,
@@ -86,9 +88,10 @@ const Subscribe: React.FC<ISubscribe> = ({
   const dir = useHtmlDir()
 
   useEffect(() => {
-    if (locale !== undefined) {
-      setCountries(countriesData(locale))
-    }
+    setCountries(countriesData(locale || 'en'))
+    // Clear timeouts on component unmount
+    clearTimeout(emailTimeoutRef.current)
+    clearTimeout(countryTimeoutRef.current)
   }, [locale])
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,33 +138,11 @@ const Subscribe: React.FC<ISubscribe> = ({
     }
   }
 
-  // Clear timeouts on component unmount
-  useEffect(() => {
-    return () => {
-      clearTimeout(emailTimeoutRef.current)
-      clearTimeout(countryTimeoutRef.current)
-    }
-  }, [])
-
   const form = (
-    <form
-      className={styles.form}
-      name="subscribe"
-      onSubmit={handleSubmit}
-    >
-      {isSubmitted ? (
-        <Typography
-          className={styles.submitSuccess}
-          variant="caption"
-          color="success"
-        >
-          {registrarSuccessText}
-        </Typography>
-      ) : (
-        <Typography variant="h3" className={styles.title}>
-          {subscribeTitle}
-        </Typography>
-      )}
+    <form className={styles.form} name="subscribe" onSubmit={handleSubmit}>
+      <Typography variant="h3" className={styles.title}>
+        {subscribeTitle}
+      </Typography>
       <Box component="div" className={styles.formWrapper}>
         <Box component="div" className={styles.inputWrapper}>
           <TextField
@@ -205,7 +186,11 @@ const Subscribe: React.FC<ISubscribe> = ({
             autoHighlight
             getOptionLabel={(option) => option.label ?? ''}
             renderOption={(props, option) => (
-              <Box component="li" {...props}>
+              <Box
+                component="li"
+                {...props}
+                sx={{ display: 'flex', alignItems: 'center' }}
+              >
                 <Image
                   loading="lazy"
                   width={20}
@@ -214,6 +199,9 @@ const Subscribe: React.FC<ISubscribe> = ({
                   quality={100}
                   alt={option.label ?? ''}
                 />
+                <Typography sx={{ marginInlineStart: '10px' }}>
+                  {option.label}
+                </Typography>
               </Box>
             )}
             renderInput={(params) => (
