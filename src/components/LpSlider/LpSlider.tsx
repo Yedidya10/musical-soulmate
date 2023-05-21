@@ -59,7 +59,7 @@ const LpSlider: React.FC<ILpSlider> = ({
     >
       <SplideSlide className={styles.slide}>
         <div className={styles.image}>
-          <Image src={slide1ImageSrc} alt={slide1ImageAlt} fill={true} />
+          <Image src={slide1ImageSrc} alt={slide1ImageAlt} fill={true} sizes='100%' priority={true}/>
         </div>
         <div className={styles.content}>
           <h1 className={styles.title}>{slide1Title}</h1>
@@ -68,14 +68,14 @@ const LpSlider: React.FC<ILpSlider> = ({
       </SplideSlide>
       <SplideSlide className={styles.slide}>
         <div className={styles.image}>
-          <Image src={slide2ImageSrc} alt={slide2ImageAlt} fill={true} />
+          <Image src={slide2ImageSrc} alt={slide2ImageAlt} fill={true} sizes='100%'/>
         </div>
         <div className={styles.content}>
           <h1 className={styles.title}>{slide2Title}</h1>
           <p className={styles.description}>{slide2Description}</p>
         </div>
       </SplideSlide>
-      <SplideSlide className={styles.slide}>
+      {/* <SplideSlide className={styles.slide}>
         <div className={styles.image}>
           <Image src={slide3ImageSrc} alt={slide3ImageAlt} fill={true} />
         </div>
@@ -83,7 +83,7 @@ const LpSlider: React.FC<ILpSlider> = ({
           <h1 className={styles.title}>{slide3Title}</h1>
           <p className={styles.description}>{slide3Description}</p>
         </div>
-      </SplideSlide>
+      </SplideSlide> */}
     </Splide>
   )
 }
