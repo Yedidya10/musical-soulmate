@@ -10,12 +10,6 @@
   "slide3Title": "Manage your music",
   "slide3Description": "Access a range of tools to conveniently manage your music over time",
   "subscribeTitle": "Subscribe to get notified about the app launch",
-  "emailLabel": "Enter your email address",
-  "countryLabel": "Select your country",
-  "emailPlaceholder": "Enter your email",
-  "countryPlaceholder": "example: United States",
-  "emailFieldRequired": "Email is required",
-  "countryFieldRequired": "Country is required",
-  "registration-was-successful": "Registration was successful",
-  "providersLogin": "Login with"
+
+  "continue-with": "Continue with"
 }
