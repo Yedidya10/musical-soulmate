@@ -1,17 +1,17 @@
-import PlaylistWrapper from '../../components/playlistWrapper/PlaylistWrapper'
-import PrimaryLayout from '../../components/layouts/primary/PrimaryLayout'
-import { NextPageWithLayout } from '../../lib/types/page'
+'use client'
 
-import Playlist from '../../components/playlist/Playlist'
-import TrackWidget from '../../components/trackWidget/TrackWidget'
-import styles from './Profile.module.scss'
-import useSpotify from '../../lib/hooks/useSpotify'
+import PrimaryLayout from '../../components/layouts/primary/PrimaryLayout'
+import PlaylistWrapper from '../../components/playlistWrapper/PlaylistWrapper'
+import { NextPageWithLayout } from '../../types/page'
 import { getSession, useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
+import Playlist from '../../components/playlist/Playlist'
+import TrackWidget from '../../components/audioTrack/AudioTrack'
+import useSpotify from '../../lib/hooks/useSpotify'
 import {
-  playlistState,
   playlistIdState,
+  playlistState,
   topTracksState,
 } from '../../lib/recoil/atoms/playlistAtom'
 
@@ -36,7 +36,6 @@ const Profile: NextPageWithLayout<IProfile> = () => {
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
-     
       console.log(session?.user)
 
       spotifyApi
@@ -80,7 +79,15 @@ const Profile: NextPageWithLayout<IProfile> = () => {
       //     }
       //   })
     }
-  }, [spotifyApi, playlistId])
+  }, [
+    spotifyApi,
+    playlistId,
+    playlist,
+    session,
+    topTracks,
+    setTopTracks,
+    setPlaylist,
+  ])
 
   return (
     <>
