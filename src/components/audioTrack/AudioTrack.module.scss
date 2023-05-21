@@ -1,4 +1,4 @@
-.trackWidget {
+.audioTrack {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,7 +12,7 @@
   }
 }
 
-.trackWidget > * {
+.audioTrack > * {
   outline: 1px solid red;
 }
 
@@ -94,7 +94,9 @@
   }
 }
 
-.trackName, .trackArtistName, .trackAlbumName {
+.trackName,
+.trackArtistName,
+.trackAlbumName {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -116,7 +118,7 @@
 }
 
 @media screen and (max-width: 768px) {
-  .trackWidget {
+  .audioTrack {
     padding-block: 5px;
     cursor: pointer;
   }

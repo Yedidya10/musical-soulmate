@@ -1,6 +1,6 @@
-import { ITrackWidget } from './TrackWidget'
+import { IAudioTrack } from './AudioTrack'
 
-const base: ITrackWidget = {
+const base: IAudioTrack = {
   trackId: '',
   trackNumber: 0,
   artistName: '',
@@ -9,9 +9,9 @@ const base: ITrackWidget = {
   albumImage: '',
   trackDuration: '',
   trackUri: '',
-  liked: false
+  liked: false,
 }
 
-export const mockTrackWidgetProps = {
+export const mockAudioTrackProps = {
   base,
 }

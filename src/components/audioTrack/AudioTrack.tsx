@@ -1,12 +1,14 @@
-import { currentTrackPlayingIndicatorAtom } from '../../lib/recoil/atoms/currentTrackAtom'
-import { musicPlayerAtom } from '../../lib/recoil/atoms/musicPlayerAtom'
+'use client'
+
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { BsHeart, BsHeartFill, BsPauseFill, BsPlayFill } from 'react-icons/bs'
 import { useRecoilState } from 'recoil'
-import styles from './TrackWidget.module.scss'
+import { currentTrackPlayingIndicatorAtom } from '../../lib/recoil/atoms/currentTrackAtom'
+import { musicPlayerAtom } from '../../lib/recoil/atoms/musicPlayerAtom'
+import styles from './AudioTrack.module.scss'
 
-export interface ITrackWidget {
+export interface IAudioTrack {
   trackId: string
   trackNumber: number
   artistName: string
@@ -18,7 +20,7 @@ export interface ITrackWidget {
   liked: boolean
 }
 
-const TrackWidget: React.FC<ITrackWidget> = ({
+const AudioTrack: React.FC<IAudioTrack> = ({
   trackId,
   trackNumber,
   artistName,
@@ -95,7 +97,7 @@ const TrackWidget: React.FC<ITrackWidget> = ({
 
   return (
     <div
-      className={styles.trackWidget}
+      className={styles.audioTrack}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={screenWidth <= 768 ? handleCurrentTrackIndicator : undefined}
@@ -133,4 +135,4 @@ const TrackWidget: React.FC<ITrackWidget> = ({
   )
 }
 
-export default TrackWidget
+export default AudioTrack

@@ -1,13 +1,13 @@
 import { Meta } from '@storybook/react'
-import TrackWidget from './TrackWidget'
+import AudioTrack from './AudioTrack'
 
-const meta: Meta<typeof TrackWidget> = {
+const meta: Meta<typeof AudioTrack> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'Templates/TrackWidget',
-  component: TrackWidget,
+  title: 'Templates/AudioTrack',
+  component: AudioTrack,
   /* 👇 The argTypes prop is optional.
    * See https://storybook.js.org/docs/react/api/argtypes
    * to learn how to configure args for your stories
