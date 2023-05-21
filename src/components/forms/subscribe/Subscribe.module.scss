@@ -1,7 +1,4 @@
 $form-padding-inline: 20px;
-$form-primary-color: #002b5c;
-$form-secondary-color: #6ea8da;
-$form-accent-color: #ff4081;
 $form-neutral-color: #f4f7fc;
 $form-success-color: #4caf50;
 $form-button-color: #8f3bff;
@@ -19,7 +16,6 @@ $form-font-family: 'Inter', sans-serif;
     align-self: center;
     text-align: center;
     font-weight: 400;
-    color: $form-primary-color;
     font-family: $form-font-family;
     font-size: 1.1rem;
     margin-block-end: 1rem;
@@ -33,6 +29,10 @@ $form-font-family: 'Inter', sans-serif;
     font-family: $form-font-family;
     font-size: 1.1rem;
     margin-block-end: 1rem;
+  }
+
+  .autocompleteOption {
+    margin-inline-start: 10px;
   }
 
   .inputWrapper {
@@ -82,12 +82,7 @@ $form-font-family: 'Inter', sans-serif;
     border-radius: 100vw;
     background: $form-neutral-color;
     transition: border-color 0.3s ease;
-    color: $form-primary-color; /* Text color */
     font-family: $form-font-family;
-
-    &:hover {
-      border-color: darken($form-primary-color, 10%);
-    }
   }
 
   @media screen and (min-width: 768px) {
