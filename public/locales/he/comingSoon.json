@@ -9,13 +9,5 @@
   "slide3ImageAlt": "סלייד תמונה 3",
   "slide3Title": "נהל את המוזיקה שלך",
   "slide3Description": "קבל גישה לכלים שונים כדי לנהל את המוזיקה שלך בצורה נוחה ומהירה",
-  "subscribeTitle": "הירשם לקבלת מועד ההשקה",
-  "emailLabel": "אימייל",
-  "countryLabel": "מדינה",
-  "emailFieldRequired": "שדה אימייל הוא שדה חובה",
-  "countryFieldRequired": "שדה מדינה הוא שדה חובה",
-  "emailPlaceholder": "אימייל",
-  "countryPlaceholder": "לדוגמא: ישראל",
-  "registration-was-successful": "ההרשמה הסתיימה בהצלחה",
-  "providersLogin": "התחבר עם"
+  "continue-with": "המשך עם"
 }

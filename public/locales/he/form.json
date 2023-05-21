@@ -1,0 +1,14 @@
+{
+  "subscribeTitle": "הירשם לקבלת מועד ההשקה",
+  "emailLabel": "אימייל",
+  "countryLabel": "מדינה",
+  "emailFieldRequired": "שדה אימייל הוא שדה חובה",
+  "countryFieldRequired": "שדה מדינה הוא שדה חובה",
+  "emailPlaceholder": "אימייל",
+  "countryPlaceholder": "לדוגמא: ישראל",
+  "registration-was-successful": "ההרשמה הסתיימה בהצלחה",
+  "the-registration-attempt-failed": "נסיון ההרשמה נכשל",
+  "subscribe": "הירשם",
+  "the-email-address-is-already-in-use": "כתובת האימייל כבר בשימוש",
+  "please-try-again-later": "אנא נסה שוב מאוחר יותר"
+}
