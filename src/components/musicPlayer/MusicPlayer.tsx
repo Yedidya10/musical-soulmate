@@ -14,6 +14,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { useRouter } from 'next/router'
+import styles from './MusicPlayer.module.scss'
 
 const WallPaper = styled('div')({
   position: 'sticky',
@@ -54,7 +55,7 @@ const Widget = styled('div')(({ theme }) => ({
   position: 'relative',
   zIndex: 1,
   backgroundColor:
-    theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.4)',
+    theme.palette.mode === 'light' ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)',
   backdropFilter: 'blur(40px)',
 }))
 
@@ -115,7 +116,7 @@ const MusicPlayer: React.FC<IMusicPlayer> = () => {
   }, [locale])
 
   return (
-    <div>
+    <>
       {musicPlayer.display && (
         <Box sx={{ width: '100%', overflow: 'hidden' }}>
           <Widget>
@@ -173,12 +174,13 @@ const MusicPlayer: React.FC<IMusicPlayer> = () => {
                 direction="row"
                 sx={{ mb: 1, px: 1 }}
                 alignItems="center"
+                width={.6}
               >
                 <VolumeDownRounded htmlColor={lightIconColor} />
-
                 <Slider
                   aria-label="Volume"
                   defaultValue={musicPlayer.volume}
+                  value={musicPlayer.volume}
                   onChange={(_, value) =>
                     setMusicPlayer({ ...musicPlayer, volume: value as number })
                   }
@@ -191,8 +193,8 @@ const MusicPlayer: React.FC<IMusicPlayer> = () => {
                       border: 'none',
                     },
                     '& .MuiSlider-thumb': {
-                      width: 24,
-                      height: 24,
+                      width: 14,
+                      height: 14,
                       backgroundColor: '#fff',
                       '&:before': {
                         boxShadow: '0 4px 8px rgba(0,0,0,0.4)',
@@ -262,7 +264,7 @@ const MusicPlayer: React.FC<IMusicPlayer> = () => {
           <WallPaper />
         </Box>
       )}
-    </div>
+    </>
   )
 }
 
