@@ -16,7 +16,6 @@ const base: ISubscribe = {
   countryRequiredErrorText: 'Country is required',
   emailRequiredErrorText: 'Email is required',
   isSubmitted: false,
-  registrarSuccessText: '',
 }
 
 export const mockSubscribeProps = {
