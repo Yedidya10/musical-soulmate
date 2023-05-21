@@ -7,7 +7,7 @@ export interface IFooter extends React.ComponentPropsWithoutRef<'footer'> {}
 const Footer: React.FC<IFooter> = ({ className, ...footerProps }) => {
   return (
     <Box component="footer" className={style.footer} {...footerProps}>
-      <MusicPlayer />
+      {/* <MusicPlayer /> */}
     </Box>
   )
 }
