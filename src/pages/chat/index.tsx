@@ -1,7 +1,5 @@
 import PrimaryLayout from '../../components/layouts/primary/PrimaryLayout'
-import { NextPageWithLayout } from '../../lib/types/page'
-
-import styles from './Chat.module.scss'
+import { NextPageWithLayout } from '../../types/page'
 
 export interface IChat {
   sampleTextProp: string

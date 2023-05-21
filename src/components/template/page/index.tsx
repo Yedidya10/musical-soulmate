@@ -1,5 +1,5 @@
+import { NextPageWithLayout } from '../../../types/page'
 import PrimaryLayout from '../../layouts/primary/PrimaryLayout'
-import { NextPageWithLayout } from '../../../lib/types/page'
 
 import styles from './PageTemplate.module.scss'
 
