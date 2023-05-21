@@ -10,10 +10,23 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import styles from './ComingSoon.module.scss'
+import { CacheProvider } from '@emotion/react'
+import { Alert, Snackbar, SnackbarOrigin } from '@mui/material'
+import createCache from '@emotion/cache'
+import rtlPlugin from 'stylis-plugin-rtl'
 
 export interface IComingSoon {
   providers: object
 }
+
+export interface SnackbarInterface extends SnackbarOrigin {
+  open: boolean
+}
+
+const cacheRtl = createCache({
+  key: 'muirtl',
+  stylisPlugins: [rtlPlugin],
+})
 
 // Define a GraphQL mutation that create a new subscriber
 const CREATE_SUBSCRIBER = gql`
@@ -42,6 +55,7 @@ export async function getServerSideProps({ locale }: { locale: string }) {
           'comingSoon',
           'common',
           'countries',
+          'form',
         ])),
         providers,
       },
@@ -58,10 +72,23 @@ const ComingSoon: React.FC<IComingSoon> = ({ providers }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [htmlDir, setHtmlDir] = useState('')
 
-  const formRef = useRef();
-
   const { locale } = useRouter()
   const { t } = useTranslation()
+
+  const [snackbarSucceeded, setSnackbarSucceeded] = useState<SnackbarInterface>(
+    {
+      open: false,
+      vertical: 'top',
+      horizontal: 'center',
+    }
+  )
+
+
+  const [snackbarFailed, setSnackbarFailed] = useState<SnackbarInterface>({
+    open: false,
+    vertical: 'top',
+    horizontal: 'center',
+  })
 
   useEffect(() => {
     if (
@@ -123,16 +150,14 @@ const ComingSoon: React.FC<IComingSoon> = ({ providers }) => {
       const json = { ...object, language: locale }
 
       // calling createSubscribeMutation
-      createSubscriberMutation({ variables: json })
-        .then((d) => {
-          setIsSubmitted(true)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-  
-
+      try {
+        await createSubscriberMutation({ variables: json })
+        setIsSubmitted(true)
+        setSnackbarSucceeded({ ...snackbarSucceeded, open: true })
+      } catch (error) {
+        console.log(error)
+        setSnackbarFailed({ ...snackbarFailed, open: true })
+      }
     } catch (error) {
       console.log('Error:', error)
     }
@@ -161,15 +186,14 @@ const ComingSoon: React.FC<IComingSoon> = ({ providers }) => {
           />
         </div>
         <Subscribe
-          subscribeTitle={t('comingSoon:subscribeTitle')}
-          emailLabelText={t('comingSoon:emailLabel')}
-          countryLabelText={t('comingSoon:countryLabel')}
+          subscribeTitle={t('form:subscribeTitle')}
+          emailLabelText={t('form:emailLabel')}
+          countryLabelText={t('form:countryLabel')}
           emailPlaceholder="example@example.com"
-          countryPlaceholder={t('comingSoon:countryPlaceholder')}
-          countryRequiredErrorText={t('comingSoon:countryRequiredErrorText')}
-          emailRequiredErrorText={t('comingSoon:emailRequiredErrorText')}
-          submitButtonText={t('common:subscribe')}
-          registrarSuccessText={t('comingSoon:registration-was-successful')}
+          countryPlaceholder={t('form:countryPlaceholder')}
+          countryRequiredErrorText={t('form:countryRequiredErrorText')}
+          emailRequiredErrorText={t('form:emailRequiredErrorText')}
+          submitButtonText={t('form:subscribe')}
           isSubmitted={isSubmitted}
           emailValue={emailValue}
           countryValue={countryValue}
@@ -177,12 +201,60 @@ const ComingSoon: React.FC<IComingSoon> = ({ providers }) => {
           setEmail={setEmailValue}
           setCountry={setCountryValue}
         />
-        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+        <CacheProvider value={cacheRtl}>
+          <Snackbar
+            open={snackbarFailed.open}
+            autoHideDuration={6000}
+            onClose={() =>
+              setSnackbarFailed({ ...snackbarFailed, open: false })
+            }
+            key={snackbarFailed.vertical + snackbarFailed.horizontal}
+            anchorOrigin={{
+              vertical: snackbarFailed.vertical,
+              horizontal: snackbarFailed.horizontal,
+            }}
+          >
+            <Alert
+              onClose={() =>
+                setSnackbarFailed({ ...snackbarFailed, open: false })
+              }
+              severity="error"
+              sx={{ width: '100%' }}
+            >
+              {t('form:the-registration-attempt-failed')}{' '}
+              {t('form:please-try-again-later')}
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            open={snackbarSucceeded.open}
+            autoHideDuration={6000}
+            onClose={() =>
+              setSnackbarSucceeded({ ...snackbarSucceeded, open: false })
+            }
+            key={ snackbarSucceeded.vertical + snackbarSucceeded.horizontal}
+            anchorOrigin={{
+              vertical: snackbarSucceeded.vertical,
+              horizontal: snackbarSucceeded.horizontal,
+            }}
+          >
+            <Alert
+              onClose={() =>
+                setSnackbarSucceeded({ ...snackbarSucceeded, open: false })
+              }
+              severity="success"
+              sx={{ width: '100%' }}
+            >
+              {t('form:registration-was-successful ')}
+            </Alert>
+          </Snackbar>
+        </CacheProvider>
         {/* <SignIn
-            providersLoginText={t('comingSoon:providersLogin')}
-            providers={providers}
-            signIn={signIn}
-          /> */}
+          providersLoginText={t('comingSoon:continue-with')}
+          snackbarFailText={t('form:the-registration-attempt-failed')}
+          tryAgainText={t('form:please-try-again-later')}
+          providers={providers}
+          signIn={signIn}
+        /> */}
       </main>
     </>
   )
