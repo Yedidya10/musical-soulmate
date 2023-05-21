@@ -13,6 +13,8 @@ const base: ISignIn = {
     },
   },
   signIn: Function,
+  snackbarFailText: '',
+  tryAgainText: ''
 }
 
 export const mockSignInProps = {
