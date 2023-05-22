@@ -1,5 +1,10 @@
-import { createTheme } from '@mui/material/styles';
+const customTheme = {
+  primary: {
+    main: '#8f3bff', // original color
+  },
+  secondary: {
+    main: '#ff9800', // orange color
+  },
+}
 
-const theme = createTheme();
-
-export default theme;
+export default customTheme
