@@ -1,10 +1,6 @@
-'use client'
-
 // Subscribe.tsx
 import useHtmlDir from '../../../lib/hooks/useHtmlDir'
-import countriesData, {
-  CountryDataType,
-} from '../../../lib/utils/countriesData'
+import countriesData, { CountryDataType } from '../../../utils/countriesData'
 import createCache from '@emotion/cache'
 import rtlPlugin from 'stylis-plugin-rtl'
 import { CacheProvider } from '@emotion/react'
