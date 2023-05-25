@@ -12,6 +12,7 @@ import '../styles/globals.scss'
 import createCache from '@emotion/cache'
 import rtlPlugin from 'stylis-plugin-rtl'
 
+
 import { NextPageWithLayout } from '../types/page'
 import { ColorModeProvider } from '../reactContext/ColorModeProvider'
 

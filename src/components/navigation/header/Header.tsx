@@ -1,5 +1,6 @@
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
+
 import MusicNoteIcon from '@mui/icons-material/MusicNote'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import AppBar from '@mui/material/AppBar'
@@ -10,6 +11,18 @@ import ColorModeContext from '../../../reactContext/ColorModeContext'
 import AccountSettingsMenu from '../../accountSettingsMenu/AccountSettingsMenu'
 import MainNav from '../mainNav/MainNav'
 import styles from './Header.module.scss'
+import Box from '@mui/material/Box'
+
+
+
+
+
+
+export interface IHeader extends React.ComponentPropsWithoutRef<'header'> {
+  children?: React.ReactNode
+}
+
+
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -24,6 +37,7 @@ const Header: React.FC<IHeader> = ({ ...headerProps }) => {
   const colorMode = useContext(ColorModeContext)
 
   return (
+
     <HideOnScroll {...headerProps}>
       <AppBar className={styles.header} position="sticky">
         <Box className={styles.top}>
@@ -49,7 +63,8 @@ const Header: React.FC<IHeader> = ({ ...headerProps }) => {
         </Box>
         <MainNav />
       </AppBar>
-    </HideOnScroll>
+      </HideOnScroll>
+
   )
 }
 

@@ -27,6 +27,7 @@ const PrimaryLayout: React.FC<IPrimaryLayout> = ({ headTitle, children }) => {
         <Box component={'main'} className={styles.main}>
           {children}
         </Box>
+
         <Footer />
       </Box>
     </>
