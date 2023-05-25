@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -16,60 +22,48 @@
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
-}
 
-@media (prefers-color-scheme: light) {
-  :root {
+  @media (prefers-color-scheme: light) {
     --callout-rgb: 28, 30, 31;
     --callout-border-rgb: 94, 97, 98;
     --card-rgb: 28, 30, 31;
     --card-border-rgb: 94, 97, 98;
   }
 
-  html {
+  @media (prefers-color-scheme: dark) {
+    --callout-rgb: 28, 30, 31;
+    --callout-border-rgb: 94, 97, 98;
+    --card-rgb: 28, 30, 31;
+    --card-border-rgb: 94, 97, 98;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+
+  &[lang^='fa'],
+  &[lang^='ar'],
+  &[lang^='he'],
+  &[lang^='ckb'],
+  &[lang^='ur'],
+  &[lang^='dv'],
+  &[lang^='ku'],
+  &[lang^='az'],
+  &[lang^='arc'] {
+    direction: rtl;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+
+  @media (prefers-color-scheme: light) {
     color-scheme: light;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --callout-rgb: 28, 30, 31;
-    --callout-border-rgb: 94, 97, 98;
-    --card-rgb: 28, 30, 31;
-    --card-border-rgb: 94, 97, 98;
-  }
-
-  html {
-    color-scheme: dark;
-  }
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-html[lang^='fa'],
-html[lang^='ar'],
-html[lang^='he'],
-html[lang^='ckb'],
-html[lang^='ur'],
-html[lang^='dv'],
-html[lang^='ku'],
-html[lang^='az'],
-html[lang^='arc'] {
-  direction: rtl;
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  min-width: 260px;
 }
 
 button {

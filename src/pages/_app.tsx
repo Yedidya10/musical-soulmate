@@ -9,6 +9,9 @@ import { RecoilRoot } from 'recoil'
 import createEmotionCache from '../createEmotionCache'
 import apolloClient from '../lib/apolloClient'
 import '../styles/globals.scss'
+import createCache from '@emotion/cache'
+import rtlPlugin from 'stylis-plugin-rtl'
+
 
 import { NextPageWithLayout } from '../types/page'
 import { ColorModeProvider } from '../reactContext/ColorModeProvider'
@@ -27,10 +30,16 @@ function App({
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page) => page)
 
+  const mergedCache = createCache({
+    ...emotionCache,
+    key: 'muirtl',
+    stylisPlugins: [rtlPlugin],
+  })
+
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={apolloClient}>
-        <CacheProvider value={emotionCache}>
+        <CacheProvider value={mergedCache}>
           <ColorModeProvider>
             <CssBaseline />
             <RecoilRoot>
