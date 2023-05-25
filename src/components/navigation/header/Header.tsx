@@ -12,19 +12,6 @@ import AccountSettingsMenu from '../../accountSettingsMenu/AccountSettingsMenu'
 import MainNav from '../mainNav/MainNav'
 import styles from './Header.module.scss'
 import Box from '@mui/material/Box'
-
-
-
-
-
-
-export interface IHeader extends React.ComponentPropsWithoutRef<'header'> {
-  children?: React.ReactNode
-}
-
-
-
-import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import HideOnScroll from '../../muiHelpers/HideOnScroll'
 
