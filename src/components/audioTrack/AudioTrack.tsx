@@ -72,7 +72,7 @@ const AudioTrack: React.FC<IAudioTrack> = ({
         name: trackName,
         artist: artistName,
         album: albumName,
-        image: albumImage,
+        albumImage: albumImage,
         duration: trackDuration,
         uri: trackUri,
       },

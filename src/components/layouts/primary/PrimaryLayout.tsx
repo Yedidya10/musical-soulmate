@@ -3,6 +3,8 @@ import Footer from '../../navigation/footer/Footer'
 import Header from '../../navigation/header/Header'
 import styles from './PrimaryLayout.module.scss'
 import Box from '@mui/material/Box'
+import MusicPlayer from '../../musicPlayer/MusicPlayer'
+
 export interface IPrimaryLayout extends React.ComponentPropsWithoutRef<'div'> {
   headTitle: string
 }
@@ -26,8 +28,8 @@ const PrimaryLayout: React.FC<IPrimaryLayout> = ({ headTitle, children }) => {
         <Header />
         <Box component={'main'} className={styles.main}>
           {children}
+          { <MusicPlayer />}
         </Box>
-
         <Footer />
       </Box>
     </>
