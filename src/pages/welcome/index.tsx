@@ -1,32 +1,26 @@
-import LpSlider from '../../components/LpSlider/LpSlider'
-import Subscribe from '../../components/forms/subscribe/Subscribe'
-import SignIn from '../../components/signIn/SignIn'
-import apolloClient from '../../lib/apolloClient'
 import { gql, useMutation } from '@apollo/client'
+import createCache from '@emotion/cache'
+import { Alert, Snackbar, SnackbarOrigin } from '@mui/material'
 import { getProviders, signIn } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
-import styles from './ComingSoon.module.scss'
-import { CacheProvider } from '@emotion/react'
-import { Alert, Snackbar, SnackbarOrigin } from '@mui/material'
-import createCache from '@emotion/cache'
+import { useEffect, useState } from 'react'
 import rtlPlugin from 'stylis-plugin-rtl'
+import LpSlider from '../../components/LpSlider/LpSlider'
+import Subscribe from '../../components/forms/subscribe/Subscribe'
+import apolloClient from '../../lib/apolloClient'
+import SignIn from '../../components/signIn/SignIn'
+import styles from './Welcome.module.scss'
 
-export interface IComingSoon {
+export interface IWelcome {
   providers: object
 }
 
 export interface SnackbarInterface extends SnackbarOrigin {
   open: boolean
 }
-
-const cacheRtl = createCache({
-  key: 'muirtl',
-  stylisPlugins: [rtlPlugin],
-})
 
 // Define a GraphQL mutation that create a new subscriber
 const CREATE_SUBSCRIBER = gql`
@@ -65,7 +59,7 @@ export async function getServerSideProps({ locale }: { locale: string }) {
   }
 }
 
-const ComingSoon: React.FC<IComingSoon> = ({ providers }) => {
+const Welcome: React.FC<IWelcome> = ({ providers }) => {
   const [emailValue, setEmailValue] = useState('')
   const [countryValue, setCountryValue] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -82,7 +76,6 @@ const ComingSoon: React.FC<IComingSoon> = ({ providers }) => {
       horizontal: 'center',
     }
   )
-
 
   const [snackbarFailed, setSnackbarFailed] = useState<SnackbarInterface>({
     open: false,
@@ -201,8 +194,8 @@ const ComingSoon: React.FC<IComingSoon> = ({ providers }) => {
           setEmail={setEmailValue}
           setCountry={setCountryValue}
         />
-        <CacheProvider value={cacheRtl}>
-          <Snackbar
+
+        {/* <Snackbar
             open={snackbarFailed.open}
             autoHideDuration={6000}
             onClose={() =>
@@ -224,40 +217,39 @@ const ComingSoon: React.FC<IComingSoon> = ({ providers }) => {
               {t('form:the-registration-attempt-failed')}{' '}
               {t('form:please-try-again-later')}
             </Alert>
-          </Snackbar>
-          <Snackbar
-            open={snackbarSucceeded.open}
-            autoHideDuration={6000}
+          </Snackbar> */}
+        <Snackbar
+          open={snackbarSucceeded.open}
+          autoHideDuration={6000}
+          onClose={() =>
+            setSnackbarSucceeded({ ...snackbarSucceeded, open: false })
+          }
+          key={snackbarSucceeded.vertical + snackbarSucceeded.horizontal}
+          anchorOrigin={{
+            vertical: snackbarSucceeded.vertical,
+            horizontal: snackbarSucceeded.horizontal,
+          }}
+        >
+          <Alert
             onClose={() =>
               setSnackbarSucceeded({ ...snackbarSucceeded, open: false })
             }
-            key={ snackbarSucceeded.vertical + snackbarSucceeded.horizontal}
-            anchorOrigin={{
-              vertical: snackbarSucceeded.vertical,
-              horizontal: snackbarSucceeded.horizontal,
-            }}
+            severity="success"
+            sx={{ width: '100%' }}
           >
-            <Alert
-              onClose={() =>
-                setSnackbarSucceeded({ ...snackbarSucceeded, open: false })
-              }
-              severity="success"
-              sx={{ width: '100%' }}
-            >
-              {t('form:registration-was-successful ')}
-            </Alert>
-          </Snackbar>
-        </CacheProvider>
-        {/* <SignIn
+            {t('form:registration-was-successful ')}
+          </Alert>
+        </Snackbar>
+        <SignIn
           providersLoginText={t('comingSoon:continue-with')}
           snackbarFailText={t('form:the-registration-attempt-failed')}
           tryAgainText={t('form:please-try-again-later')}
           providers={providers}
           signIn={signIn}
-        /> */}
+        />
       </main>
     </>
   )
 }
 
-export default ComingSoon
+export default Welcome
