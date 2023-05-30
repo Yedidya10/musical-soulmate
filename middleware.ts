@@ -22,14 +22,14 @@ export async function middleware(req: NextApiRequest) {
       return NextResponse.next()
     }
 
-    // Redirect authenticated users from /coming-soon to /
-    if (token && pathname === '/coming-soon') {
+    // Redirect authenticated users from /welcome to /
+    if (token && pathname === '/welcome') {
       return NextResponse.redirect(`${process.env.DOMAIN}/`)
     }
 
-    // Redirect unauthenticated users to /coming-soon
-    // if (!token && pathname !== '/coming-soon') {
-    //   return NextResponse.redirect(`${process.env.DOMAIN}/coming-soon`)
+    // Redirect unauthenticated users to /welcome
+    // if (!token && pathname !== '/welcome') {
+    //   return NextResponse.redirect(`${process.env.DOMAIN}/welcome`)
     // }
   } catch (error) {
     console.error('Error in middleware:', error)

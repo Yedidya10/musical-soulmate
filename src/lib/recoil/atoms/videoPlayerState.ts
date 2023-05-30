@@ -17,11 +17,22 @@ const localStorageEffect =
     })
   }
 
-export const currentTrackPlayingIndicatorAtom = atom({
-  key: 'currentTrackPlayingIndicatorState',
+export const videoPlayerState = atom({
+  key: 'videoPlayerState',
   default: {
-    trackId: '',
+    display: false,
+    track: {
+      id: '',
+      name: '',
+      artist: '',
+      album: '',
+      albumImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoWXLqTUYxfFTnLr65MKKVrws00bErpXnJWw&usqp=CAU',
+      duration: '',
+      uri: '',
+    },
     isPlaying: false,
+    paused: false,
+    progress: 0,
   },
-  effects: [localStorageEffect('currentTrackPlayingIndicatorState')],
+  effects: [localStorageEffect('videoPlayerState')],
 })

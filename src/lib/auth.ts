@@ -1,11 +1,12 @@
-import spotifyApi, { SPOTIFY_LOGIN_URL } from '../lib/spotify'
-import { NextAuthOptions } from 'next-auth'
-import SpotifyProvider from 'next-auth/providers/spotify'
-import GoogleProvider from 'next-auth/providers/google'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import prismaClient from '@/src/lib/prisma'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { NextAuthOptions } from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
+import SpotifyProvider from 'next-auth/providers/spotify'
+import spotifyApi, { SPOTIFY_LOGIN_URL } from './spotify/spotifyApi'
+import { useRouter } from 'next/router'
 
-const prismaAdapter = PrismaAdapter(prismaClient)
+// const prismaAdapter = PrismaAdapter(prismaClient)
 
 // Check if the environment variables are set
 function getCredentials(providerName: string) {
@@ -24,13 +25,13 @@ function getCredentials(providerName: string) {
 }
 
 const authOptions: NextAuthOptions = {
-  adapter: prismaAdapter,
+  // adapter: prismaAdapter,
   // use jwt instead of database sessions to manage middleware more easily
   session: {
     strategy: 'jwt',
   },
   pages: {
-    signIn: '/coming-soon',
+    signIn: '/welcome',
   },
   // Configure one or more authentication providers
   providers: [
@@ -52,7 +53,6 @@ const authOptions: NextAuthOptions = {
       },
     }),
   ],
-
   secret: process.env.JWT_SECRET,
   callbacks: {
     async jwt({ token, user, account }) {

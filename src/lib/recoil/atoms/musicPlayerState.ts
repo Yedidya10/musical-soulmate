@@ -17,7 +17,7 @@ const localStorageEffect =
     })
   }
 
-export const musicPlayerAtom = atom({
+export const musicPlayerState = atom({
   key: 'musicPlayerState',
   default: {
     display: false,
@@ -26,7 +26,7 @@ export const musicPlayerAtom = atom({
       name: '',
       artist: '',
       album: '',
-      image: '',
+      albumImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoWXLqTUYxfFTnLr65MKKVrws00bErpXnJWw&usqp=CAU',
       duration: '',
       uri: '',
     },
