@@ -1,99 +1,31 @@
 'use client'
 
-import PrimaryLayout from '../../components/layouts/primary/PrimaryLayout'
-import PlaylistWrapper from '../../components/playlistWrapper/PlaylistWrapper'
-import { NextPageWithLayout } from '../../types/page'
 import { getSession, useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
+import PrimaryLayout from '../../components/layouts/primary/PrimaryLayout'
+import MediaTrack from '../../components/mediaTrack/MediaTrack'
 import Playlist from '../../components/playlist/Playlist'
-import TrackWidget from '../../components/audioTrack/AudioTrack'
-import useSpotify from '../../lib/hooks/useSpotify'
+import PlaylistWrapper from '../../components/playlistWrapper/PlaylistWrapper'
+import SpotifyReq from '../../lib/spotify/spotifyReq'
 import {
   playlistIdState,
   playlistState,
   topTracksState,
 } from '../../lib/recoil/atoms/playlistAtom'
+import { NextPageWithLayout } from '../../types/page'
 
 export interface IProfile {}
 
-export async function getServerSideProps(context: any) {
-  const session = await getSession(context)
-
-  return {
-    props: {
-      session,
-    },
-  }
-}
 
 const Profile: NextPageWithLayout<IProfile> = () => {
-  const [topTracks, setTopTracks] = useRecoilState(topTracksState)
-  const playlistId = useRecoilValue(playlistIdState)
-  const [playlist, setPlaylist] = useRecoilState(playlistState)
-  const spotifyApi = useSpotify()
-  const { data: session } = useSession()
-
-  useEffect(() => {
-    if (spotifyApi.getAccessToken()) {
-      console.log(session?.user)
-
-      spotifyApi
-        .getPlaylist(playlistId)
-        .then((data) => {
-          setPlaylist(data.body)
-          console.log(playlist)
-        })
-        .catch((error) => {
-          if (error && error.body && error.body.error) {
-            console.log('Error:', error.body.error)
-          } else {
-            console.log('Unexpected Error:', error)
-          }
-        })
-
-      spotifyApi
-        .getUserPlaylists({ limit: 50 })
-        .then((data) => {
-          console.log(data.body.items)
-        })
-        .catch((error) => {
-          if (error && error.body && error.body.error) {
-            console.log('Error:', error.body.error)
-          } else {
-            console.log('Unexpected Error:', error)
-          }
-        })
-
-      // spotifyApi
-      //   .getMyTopTracks({ limit: 50, time_range: 'short_term'})
-      //   .then((data) => {
-      //     setTopTracks(data.body.items)
-      //     console.log(topTracks)
-      //   })
-      //   .catch((error) => {
-      //     if (error && error.body && error.body.error) {
-      //       console.log('Error:', error.body.error)
-      //     } else {
-      //       console.log('Unexpected Error:', error)
-      //     }
-      //   })
-    }
-  }, [
-    spotifyApi,
-    playlistId,
-    playlist,
-    session,
-    topTracks,
-    setTopTracks,
-    setPlaylist,
-  ])
 
   return (
     <>
+      <SpotifyReq />
       <PlaylistWrapper playlistName={'Top Tracks'}>
         <Playlist sampleTextProp={''}>
-          <TrackWidget
+          <MediaTrack
             trackId={'4'}
             trackNumber={0}
             artistName={'Artist Name'}
@@ -108,7 +40,7 @@ const Profile: NextPageWithLayout<IProfile> = () => {
       </PlaylistWrapper>
       <PlaylistWrapper playlistName={'Top Artists'}>
         <Playlist sampleTextProp={''}>
-          <TrackWidget
+          <MediaTrack
             trackId={'5'}
             trackNumber={0}
             artistName={'Artist Name'}
@@ -123,7 +55,7 @@ const Profile: NextPageWithLayout<IProfile> = () => {
       </PlaylistWrapper>
       <PlaylistWrapper playlistName={'Top Genres'}>
         <Playlist sampleTextProp={''}>
-          <TrackWidget
+          <MediaTrack
             trackId={'6'}
             trackNumber={0}
             artistName={'Artist Name'}
