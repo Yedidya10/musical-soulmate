@@ -14,15 +14,15 @@ const scopes = [
   'user-read-playback-position',
   'user-read-playback-state',
   'user-library-read',
-].join(',')
+].join(' ');
 
 const params = {
-  scopes: scopes,
-}
+  scope: scopes,
+};
 
-const queryParamString = new URLSearchParams(params).toString()
+const queryParamString = new URLSearchParams(params).toString();
 
-const SPOTIFY_LOGIN_URL = `https://accounts.spotify.com/authorize?${queryParamString}`
+export const SPOTIFY_LOGIN_URL = `https://accounts.spotify.com/authorize?${queryParamString}`;
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -30,5 +30,3 @@ const spotifyApi = new SpotifyWebApi({
 })
 
 export default spotifyApi
-
-export { SPOTIFY_LOGIN_URL }
