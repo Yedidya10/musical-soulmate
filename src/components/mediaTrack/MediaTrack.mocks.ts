@@ -1,6 +1,6 @@
-import { IAudioTrack } from './AudioTrack'
+import { IMediaTrack } from './MediaTrack'
 
-const base: IAudioTrack = {
+const base: IMediaTrack = {
   trackId: '',
   trackNumber: 0,
   artistName: '',
@@ -12,6 +12,6 @@ const base: IAudioTrack = {
   liked: false,
 }
 
-export const mockAudioTrackProps = {
+export const mockMediaTrackProps = {
   base,
 }

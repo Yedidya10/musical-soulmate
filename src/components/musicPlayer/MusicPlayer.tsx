@@ -1,8 +1,7 @@
-import { musicPlayerAtom } from '../../lib/recoil/atoms/musicPlayerAtom'
-import SkipNextRounded from '@mui/icons-material/SkipNextRounded'
-import SkipPreviousRounded from '@mui/icons-material/SkipPreviousRounded'
 import PauseRounded from '@mui/icons-material/PauseRounded'
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded'
+import SkipNextRounded from '@mui/icons-material/SkipNextRounded'
+import SkipPreviousRounded from '@mui/icons-material/SkipPreviousRounded'
 import VolumeDownRounded from '@mui/icons-material/VolumeDownRounded'
 import VolumeUpRounded from '@mui/icons-material/VolumeUpRounded'
 import Box from '@mui/material/Box'
@@ -11,9 +10,10 @@ import Slider from '@mui/material/Slider'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { useRouter } from 'next/router'
+import { musicPlayerState } from '../../lib/recoil/atoms/musicPlayerState' 
 import styles from './MusicPlayer.module.scss'
 
 export interface IMusicPlayer {}
@@ -21,7 +21,7 @@ export interface IMusicPlayer {}
 const MusicPlayer: React.FC<IMusicPlayer> = () => {
   const { locale } = useRouter()
 
-  const [musicPlayer, setMusicPlayer] = useRecoilState(musicPlayerAtom)
+  const [musicPlayer, setMusicPlayer] = useRecoilState(musicPlayerState)
   const theme = useTheme()
   const duration = 200 // seconds
   function formatDuration(value: number) {

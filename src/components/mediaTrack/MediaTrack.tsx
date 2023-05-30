@@ -4,11 +4,13 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { BsHeart, BsHeartFill, BsPauseFill, BsPlayFill } from 'react-icons/bs'
 import { useRecoilState } from 'recoil'
-import { currentTrackPlayingIndicatorAtom } from '../../lib/recoil/atoms/currentTrackAtom'
-import { musicPlayerAtom } from '../../lib/recoil/atoms/musicPlayerAtom'
-import styles from './AudioTrack.module.scss'
+import { currentTrackIndicatorState } from '../../lib/recoil/atoms/currentTrackIndicatorState'
+import { musicPlayerState } from '../../lib/recoil/atoms/musicPlayerState'
+import styles from './MediaTrack.module.scss'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
-export interface IAudioTrack {
+export interface IMediaTrack {
   trackId: string
   trackNumber: number
   artistName: string
@@ -20,7 +22,7 @@ export interface IAudioTrack {
   liked: boolean
 }
 
-const AudioTrack: React.FC<IAudioTrack> = ({
+const MediaTrack: React.FC<IMediaTrack> = ({
   trackId,
   trackNumber,
   artistName,
@@ -32,9 +34,9 @@ const AudioTrack: React.FC<IAudioTrack> = ({
   liked,
 }) => {
   const [currentTrackIndicator, setCurrentTrackIndicator] = useRecoilState(
-    currentTrackPlayingIndicatorAtom
+    currentTrackIndicatorState
   )
-  const [musicPlayer, setMusicPlayer] = useRecoilState(musicPlayerAtom)
+  const [musicPlayer, setMusicPlayer] = useRecoilState(musicPlayerState)
 
   const [screenWidth, setScreenWidth] = useState(0)
   const [isHovering, setIsHovering] = useState(false)
@@ -96,8 +98,8 @@ const AudioTrack: React.FC<IAudioTrack> = ({
   }, [])
 
   return (
-    <div
-      className={styles.audioTrack}
+    <Box
+      className={styles.mediaTrack}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={screenWidth <= 768 ? handleCurrentTrackIndicator : undefined}
@@ -115,24 +117,25 @@ const AudioTrack: React.FC<IAudioTrack> = ({
             )}
           </button>
         ) : (
-          <div className={styles.trackNumber}>{trackNumber}</div>
+          <Typography className={styles.trackNumber}>{trackNumber}</Typography>
         ))}
+
       <div className={styles.trackImage}>
         <Image src={albumImage} alt={albumName} width={50} height={50} />
       </div>
       <div className={styles.trackInfo}>
-        <div className={styles.trackName}>{trackName}</div>
-        <div className={styles.trackArtistName}>{artistName}</div>
+        <Typography className={styles.trackName}>{trackName}</Typography>
+        <Typography className={styles.trackArtistName}>{artistName}</Typography>
       </div>
       <div className={styles.albumInfo}>
-        <div className={styles.trackAlbumName}>{albumName}</div>
+        <Typography className={styles.trackAlbumName}>{albumName}</Typography>
       </div>
-      <div className={styles.trackDuration}>{trackDuration}</div>
+      <Typography className={styles.trackDuration}>{trackDuration}</Typography>
       <div className={styles.trackLike}>
         {liked ? <BsHeartFill /> : <BsHeart />}
       </div>
-    </div>
+    </Box>
   )
 }
 
-export default AudioTrack
+export default MediaTrack

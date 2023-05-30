@@ -3,7 +3,7 @@ import { getSession, useSession } from 'next-auth/react'
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout'
 import { NextPageWithLayout } from '../types/page'
 
-import AudioTrack from '../components/audioTrack/AudioTrack'
+import MediaTrack from '../components/mediaTrack/MediaTrack'
 
 export interface IHome {}
 
@@ -23,7 +23,7 @@ const Home: NextPageWithLayout<IHome> = () => {
   return (
     <>
       <p>Welcome {session?.user?.name}</p>
-      <AudioTrack
+      <MediaTrack
         trackId="1"
         trackNumber={1}
         artistName={'Artist Name 1'}
@@ -34,7 +34,7 @@ const Home: NextPageWithLayout<IHome> = () => {
         trackUri="spotify:track:4uLU6hMCjMI75M1A2tKUQC"
         liked={false}
       />
-      <AudioTrack
+      <MediaTrack
         trackId="2"
         trackNumber={2}
         artistName={'Artist Name 2'}
@@ -45,7 +45,7 @@ const Home: NextPageWithLayout<IHome> = () => {
         trackUri="spotify:track:4uLU6hMCjMI75M1A2tKUQC"
         liked={false}
       />
-      <AudioTrack
+      <MediaTrack
         trackId="3"
         trackNumber={3}
         artistName={'Artist Name 3'}

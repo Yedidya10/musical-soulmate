@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
+import createCache from '@emotion/cache'
 import { CacheProvider } from '@emotion/react'
 import { CssBaseline } from '@mui/material'
 import { Analytics } from '@vercel/analytics/react'
@@ -6,15 +7,11 @@ import { SessionProvider } from 'next-auth/react'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import { RecoilRoot } from 'recoil'
-import createEmotionCache from '../createEmotionCache'
 import apolloClient from '../lib/apolloClient'
-import '../styles/globals.scss'
-import createCache from '@emotion/cache'
-import rtlPlugin from 'stylis-plugin-rtl'
-
-
-import { NextPageWithLayout } from '../types/page'
+import createEmotionCache from '../lib/createEmotionCache'
 import { ColorModeProvider } from '../reactContext/ColorModeProvider'
+import { NextPageWithLayout } from '../types/page'
+import '../styles/globals.scss'
 
 const clientSideEmotionCache = createEmotionCache()
 interface AppPropsWithLayout extends AppProps {
@@ -30,16 +27,10 @@ function App({
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page) => page)
 
-  const mergedCache = createCache({
-    ...emotionCache,
-    key: 'muirtl',
-    stylisPlugins: [rtlPlugin],
-  })
-
   return (
     <SessionProvider session={session}>
       <ApolloProvider client={apolloClient}>
-        <CacheProvider value={mergedCache}>
+        <CacheProvider value={emotionCache}>
           <ColorModeProvider>
             <CssBaseline />
             <RecoilRoot>
