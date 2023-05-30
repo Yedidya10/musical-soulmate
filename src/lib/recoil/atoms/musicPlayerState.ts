@@ -17,7 +17,7 @@ const localStorageEffect =
     })
   }
 
-export const musicPlayerAtom = atom({
+export const musicPlayerState = atom({
   key: 'musicPlayerState',
   default: {
     display: false,
