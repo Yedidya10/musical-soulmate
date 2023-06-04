@@ -25,18 +25,18 @@ model Subscriber {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -52,13 +52,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id                 String     @id @default(cuid())
+  email              String?    @unique
+  emailVerified      DateTime?
+  image              String?
+  spotifyDisplayName String
+  spotifyUrl         String?    @unique
+  playlists          Playlist[]
+  accounts           Account[]
+  sessions           Session[]
 }
 
 model VerificationToken {
@@ -69,6 +71,87 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// models playlist that are fit for spotify api, maybe we can add more fields later for another provider like youtube
+model Playlist {
+  id            String  @id
+  name          String
+  description   String?
+  collaborative Boolean
+  href          String
+  public        Boolean
+  primaryColor  String?
+  snapshotId    String
+  uri           String
+  tracksHref    String
+  tracks        Track[]
+  tracksTotal   Int
+  ownerId       String
+  owner         User    @relation(fields: [ownerId], references: [id])
+  images        Image[]
+}
+
+// models Image that are fit for spotify api, maybe we can add more fields later for another provider like youtube
+model Image {
+  id         Int       @id @default(autoincrement())
+  height     Int?
+  url        String
+  width      Int?
+  playlistId String?
+  playlist   Playlist? @relation(fields: [playlistId], references: [id])
+}
+
+model Artist {
+  id      String  @id @unique
+  name    String
+  albums  Album[]
+  Tracks  Track[]
+  trackId String?
+}
+
+model Album {
+  id          String   @id @unique
+  name        String
+  releaseDate String
+  totalTracks Int
+  albumType   String
+  artists     Artist[]
+  tracks      Track[]
+}
+
+model Track {
+  id               String       @id @unique
+  name             String
+  discNumber       Int
+  durationMs       Int
+  episode          Boolean
+  explicit         Boolean
+  isLocal          Boolean
+  popularity       Int
+  previewUrl       String?
+  trackNumber      Int
+  album            Album        @relation(fields: [albumId], references: [id])
+  albumId          String
+  artists          Artist[]
+  externalUrls     ExternalUrls @relation(fields: [externalUrlsId], references: [id])
+  externalIds      ExternalIds? @relation(fields: [externalIdsId], references: [id])
+  availableMarkets String[]
+  Playlist         Playlist?    @relation(fields: [playlistId], references: [id])
+  playlistId       String?
+  externalUrlsId   String
+  externalIdsId    String?
+}
+
+model ExternalUrls {
+  id      String  @id @unique
+  spotify String
+  Track   Track[]
+}
+
+model ExternalIds {
+  id    String  @id @unique
+  isrc  String
+  Track Track[]
+}
 
 // model UserProfile {
 //   id               String          @id @default(cuid())

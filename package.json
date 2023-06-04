@@ -25,6 +25,7 @@
     "build-storybook": "storybook build"
   },
   "prisma": {
+    "schema": "src/prisma/schema.prisma",
     "seed": "ts-node --transpile-only ./prisma/seed.ts"
   },
   "engines": {
