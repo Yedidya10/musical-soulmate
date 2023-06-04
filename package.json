@@ -29,7 +29,6 @@
     "seed": "ts-node --transpile-only ./prisma/seed.ts"
   },
   "engines": {
-    "node": ">=14.17.0",
     "npm": ">=6.14.13",
     "yarn": "please use npm",
     "prisma": ">=2.29.1",
