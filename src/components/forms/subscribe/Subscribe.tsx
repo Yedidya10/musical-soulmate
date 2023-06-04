@@ -11,8 +11,11 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useTheme } from '@mui/material/styles'
 import { SetStateAction, useEffect, useRef, useState } from 'react'
+import CircularProgress from '@mui/material/CircularProgress'
 import styles from './Subscribe.module.scss'
+import PrivacyPolicy from '../../privacyPolicy/PrivacyPolicy'
 
 export interface ISubscribe {
   subscribeTitle: string
@@ -29,6 +32,7 @@ export interface ISubscribe {
   setEmail: React.Dispatch<SetStateAction<string>>
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
   isSubmitted: boolean
+  isLoading: boolean
 }
 
 const cacheRtl = createCache({
@@ -72,6 +76,7 @@ const Subscribe: React.FC<ISubscribe> = ({
   setCountry,
   handleSubmit,
   isSubmitted,
+  isLoading,
 }) => {
   const { locale } = useRouter()
   const [countries, setCountries] = useState<CountryDataType[]>([])
@@ -80,6 +85,7 @@ const Subscribe: React.FC<ISubscribe> = ({
 
   const emailTimeoutRef = useRef<NodeJS.Timeout>()
   const countryTimeoutRef = useRef<NodeJS.Timeout>()
+  const theme = useTheme()
 
   const dir = useHtmlDir()
 
@@ -146,6 +152,7 @@ const Subscribe: React.FC<ISubscribe> = ({
             sx={{
               '& .MuiOutlinedInput-root': {
                 borderRadius: '100vw',
+                backgroundColor: theme.palette.background.paper,
               },
             }}
             id="email"
@@ -177,6 +184,7 @@ const Subscribe: React.FC<ISubscribe> = ({
               '& .MuiOutlinedInput-root': {
                 borderRadius: '100vw',
               },
+              backgroundColor: theme.palette.background.paper,
             }}
             options={countries}
             autoHighlight
@@ -202,6 +210,11 @@ const Subscribe: React.FC<ISubscribe> = ({
             )}
             renderInput={(params) => (
               <TextField
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: theme.palette.background.paper,
+                  },
+                }}
                 className={styles.autocompleteInput}
                 {...params}
                 label={countryLabelText}
@@ -229,16 +242,25 @@ const Subscribe: React.FC<ISubscribe> = ({
             </Typography>
           )}
         </Box>
+
         <Button
           className={styles.button}
           variant="contained"
           type="submit"
           name="submit"
           value="submit"
+          disabled={isLoading}
         >
-          {submitButtonText}
+          {isLoading ? <CircularProgress /> : submitButtonText}
         </Button>
       </Box>
+      <Typography
+        variant="caption"
+        sx={{ fontSize: '0.8rem' }}
+        className={styles.privacyPolicy}
+      >
+        Your data will be used in accordance with our{<PrivacyPolicy />}
+      </Typography>
     </form>
   )
 
