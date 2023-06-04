@@ -34,7 +34,7 @@
     "pages/_app.tsx",
     "pages/_app.tsx",
     "next-i18next.config.js",
-    "lib/supabaseClient.js"
+    "pages/api/auth/[...nextauth].ts"
   ],
   "exclude": ["node_modules"]
 }

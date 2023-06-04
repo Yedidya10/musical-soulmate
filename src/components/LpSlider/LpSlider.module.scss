@@ -1,0 +1,53 @@
+@import '../../pages/welcome/Welcome.module.scss';
+
+.slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  padding-block-end: 3rem;
+}
+
+.image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.content {
+  padding-inline: 1rem;
+}
+
+.title {
+  font-family: var(--inter-font);
+  font-weight: 600;
+  padding-block-end: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.description {
+  font-family: var(--inter-font);
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+@media screen and (min-width: 880px) {
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .description {
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (min-width: 1080px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .description {
+    font-size: 1.3rem;
+  }
+}

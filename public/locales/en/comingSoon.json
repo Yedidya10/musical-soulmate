@@ -9,9 +9,5 @@
   "slide3ImageAlt": "Image Slide 3",
   "slide3Title": "Manage your music",
   "slide3Description": "Access a range of tools to conveniently manage your music over time",
-  "emailLabel": "Subscribe for the app launch event in your country",
-  "countryLabel": "Select your country",
-  "emailPlaceholder": "Enter your email",
-  "countryPlaceholder": "example: United States",
-  "providersLogin": "Login with"
+  "continue-with": "Continue with"
 }

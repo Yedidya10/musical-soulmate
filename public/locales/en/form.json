@@ -1,0 +1,13 @@
+{
+  "subscribeTitle": "Subscribe to get notified about the app launch",
+  "emailLabel": "Enter your email address",
+  "countryLabel": "Select your country",
+  "emailPlaceholder": "Enter your email",
+  "countryPlaceholder": "example: United States",
+  "emailFieldRequired": "Email is required",
+  "countryFieldRequired": "Country is required",
+  "registration-was-successful": "Registration was successful",
+  "the-registration-attempt-failed": "The registration attempt failed",
+  "the-email-address-is-already-in-use": "The email address is already in use",
+  "please-try-again-later": "Please try again later"
+}

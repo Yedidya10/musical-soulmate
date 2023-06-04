@@ -1,0 +1,54 @@
+$pageHeight: 100vh;
+
+:export {
+  pageHeight: $pageHeight;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2rem;
+  gap: 3rem;
+}
+
+.slider {
+  max-width: 100%;
+}
+
+@media screen and (min-width: 668px) {
+  .main {
+    height: 100vh;
+    gap: 2rem;
+  }
+
+  .slider {
+    width: 70%;
+  }
+}
+
+@media screen and  (min-width: 768px) {
+  .slider {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 980px) {
+  .slider {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 1080px) {
+  .main {
+    flex-direction: row-reverse;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .slider {
+    width: 60%;
+    max-height: $pageHeight;
+  }
+}
