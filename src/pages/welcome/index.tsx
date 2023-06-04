@@ -1,5 +1,3 @@
-import { gql, useMutation } from '@apollo/client'
-import createCache from '@emotion/cache'
 import { Alert, Snackbar, SnackbarOrigin } from '@mui/material'
 import { getProviders, signIn } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
@@ -7,12 +5,12 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import rtlPlugin from 'stylis-plugin-rtl'
 import LpSlider from '../../components/LpSlider/LpSlider'
 import Subscribe from '../../components/forms/subscribe/Subscribe'
-import apolloClient from '../../lib/apolloClient'
 import SignIn from '../../components/signIn/SignIn'
 import styles from './Welcome.module.scss'
+import { gql, useMutation } from '@apollo/client'
+import apolloClient from '../../lib/apolloClient'
 
 export interface IWelcome {
   providers: object
@@ -22,7 +20,6 @@ export interface SnackbarInterface extends SnackbarOrigin {
   open: boolean
 }
 
-// Define a GraphQL mutation that create a new subscriber
 const CREATE_SUBSCRIBER = gql`
   mutation createSubscriber(
     $email: String!
@@ -65,6 +62,7 @@ const Welcome: React.FC<IWelcome> = ({ providers }) => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [htmlDir, setHtmlDir] = useState('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const { locale } = useRouter()
   const { t } = useTranslation()
@@ -94,7 +92,6 @@ const Welcome: React.FC<IWelcome> = ({ providers }) => {
     }
   }, [locale])
 
-  //useMutation Hook
   const [createSubscriberMutation, { data, loading }] = useMutation(
     CREATE_SUBSCRIBER,
     {
@@ -119,10 +116,6 @@ const Welcome: React.FC<IWelcome> = ({ providers }) => {
           },
         })
       },
-      onCompleted() {
-        setEmailValue('')
-        setCountryValue('')
-      },
       onError(error) {
         console.error('Failed to create subscriber', error)
       },
@@ -132,6 +125,7 @@ const Welcome: React.FC<IWelcome> = ({ providers }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setErrorMessage('')
+    setIsLoading(true)
 
     try {
       // converting form data to json
@@ -143,16 +137,16 @@ const Welcome: React.FC<IWelcome> = ({ providers }) => {
       const json = { ...object, language: locale }
 
       // calling createSubscribeMutation
-      try {
-        await createSubscriberMutation({ variables: json })
-        setIsSubmitted(true)
-        setSnackbarSucceeded({ ...snackbarSucceeded, open: true })
-      } catch (error) {
-        console.log(error)
-        setSnackbarFailed({ ...snackbarFailed, open: true })
-      }
+      await createSubscriberMutation({ variables: json })
+
+      setIsSubmitted(true)
+      setSnackbarSucceeded({ ...snackbarSucceeded, open: true })
+      // setSnackbarFailed({ ...snackbarFailed, open: true })
+      setIsLoading(false)
     } catch (error) {
       console.log('Error:', error)
+      setSnackbarFailed({ ...snackbarFailed, open: true })
+      setIsLoading(false)
     }
   }
 
@@ -188,6 +182,7 @@ const Welcome: React.FC<IWelcome> = ({ providers }) => {
           emailRequiredErrorText={t('form:emailRequiredErrorText')}
           submitButtonText={t('form:subscribe')}
           isSubmitted={isSubmitted}
+          isLoading={isLoading}
           emailValue={emailValue}
           countryValue={countryValue}
           handleSubmit={handleSubmit}
@@ -237,16 +232,16 @@ const Welcome: React.FC<IWelcome> = ({ providers }) => {
             severity="success"
             sx={{ width: '100%' }}
           >
-            {t('form:registration-was-successful ')}
+            {t('form:registration-was-successful')}
           </Alert>
         </Snackbar>
-        <SignIn
+        {/* <SignIn
           providersLoginText={t('comingSoon:continue-with')}
           snackbarFailText={t('form:the-registration-attempt-failed')}
           tryAgainText={t('form:please-try-again-later')}
           providers={providers}
           signIn={signIn}
-        />
+        /> */}
       </main>
     </>
   )
