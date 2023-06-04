@@ -1,6 +1,8 @@
 import { getSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import useSpotify from '../../lib/hooks/useSpotify'
+import { gql, useMutation } from '@apollo/client'
+import apolloClient from '../../lib/apolloClient'
 
 export async function getServerSideProps(context: any) {
   const session = await getSession(context)
@@ -12,54 +14,199 @@ export async function getServerSideProps(context: any) {
   }
 }
 
+// Define the mutation query
+const CREATE_PLAYLIST = gql`
+  mutation CreatePlaylist($playlist: PlaylistInput!) {
+    createPlaylist(playlist: $playlist) {
+      id
+      name
+      description
+      collaborative
+      public
+      images {
+        url
+      }
+      tracks {
+        items {
+          track {
+            id
+            name
+            artists {
+              name
+            }
+          }
+        }
+      }
+      href
+      primaryColor
+      snapshotId
+      uri
+      tracksHref
+      tracksTotal
+      ownerId
+      owner
+    }
+  }
+`
+
+const CREATE_TRACK = gql`
+  mutation CreateTrack($track: Track!) {
+    createTrack(track: $track) {
+      id
+      name
+      discNumber
+      durationMs
+      episode
+      explicit
+      isLocal
+      popularity
+      previewUrl
+      trackNumber
+      album
+      albumId
+      artists {
+        name
+      }
+      externalUrls
+      externalIds
+      availableMarkets
+      Playlist
+      playlistId
+      externalUrlsId
+      externalIdsId
+    }
+  }
+`
+
 // This is one request for a test purpose. The full code below is currently set as a comment
 const SpotifyReq: React.FC = () => {
-  const spotifyApi = useSpotify();
+  const spotifyApi = useSpotify()
 
-  const fetchUserPlaylists = async () => {
-    const options = { limit: 50, offset: 0 }; // Add 'offset' property to the options object
-    let fetchedData: any[] = [];
+  const fetchPlaylistTracks = async (playlistId: string) => {
+    const options = { limit: 50, offset: 0 } // Add 'offset' property to the options object
+    let fetchedData: any[] = []
 
     const recursiveFetch = async (offset: number) => {
-      options.offset = offset;
+      options.offset = offset
 
       try {
-        const data = await spotifyApi.getUserPlaylists(options);
-        fetchedData.push(...data.body.items);
+        const data = await spotifyApi.getPlaylistTracks(playlistId, options)
+        fetchedData.push(...data.body.items)
 
         if (data.body.next !== null) {
-          await delay(1000); // Add a delay of 1 second between requests
-          await recursiveFetch(offset + data.body.limit);
+          await delay(1000) // Add a delay of 1 second between requests
+          await recursiveFetch(offset + data.body.limit)
         } else {
-          console.log(fetchedData);
-          // Perform any necessary actions with the fetched data here
+          console.log(fetchedData)
         }
       } catch (error) {
-        console.log('Error:', error);
+        console.log('Error:', error)
       }
-    };
+    }
 
-    await recursiveFetch(0);
-    return fetchedData;
-  };
+    await recursiveFetch(0)
+    return fetchedData
+  }
+
+  const fetchUserPlaylists = async () => {
+    const options = { limit: 50, offset: 0 } // Add 'offset' property to the options object
+    let fetchedData: any[] = []
+
+    const recursiveFetch = async (offset: number) => {
+      options.offset = offset
+
+      try {
+        const data = await spotifyApi.getUserPlaylists(options)
+        fetchedData.push(...data.body.items)
+
+        if (data.body.next !== null) {
+          await delay(1000) // Add a delay of 1 second between requests
+          await recursiveFetch(offset + data.body.limit)
+        } else {
+          console.log(fetchedData)
+
+          const playlistTracks = await fetchPlaylistTracks(fetchedData[0].id)
+          console.log(playlistTracks)
+        }
+      } catch (error) {
+        console.log('Error:', error)
+      }
+    }
+
+    await recursiveFetch(0)
+    return fetchedData
+  }
 
   const delay = (ms: number) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
+    return new Promise((resolve) => setTimeout(resolve, ms))
+  }
 
-  useEffect(() => {
-    fetchUserPlaylists();
-  }, []);
+  // useEffect(() => {
+  //   fetchUserPlaylists()
+  // }, [])
 
   return (
     <div>
       <h1>SpotifyReq</h1>
     </div>
-  );
-};
+  )
+}
 
 // const SpotifyReq: React.FC = () => {
 //   const spotifyApi = useSpotify()
+
+//   // Initialize the useMutation hook
+//   const [createPlaylist, { loading, error }] = useMutation(CREATE_PLAYLIST, {
+//     client: apolloClient,
+
+//     // Update the cache after the mutation is completed.
+//     update(cache, { data: { createPlaylist } }) {
+//       cache.modify({
+//         fields: {
+//           playlists(existingPlaylists = []) {
+//             const newPlaylistRef = cache.writeFragment({
+//               data: createPlaylist,
+//               fragment: gql`
+//                 fragment NewPlaylist on Playlist {
+//                   id
+//                   name
+//                   description
+//                   collaborative
+//                   public
+//                   images {
+//                     url
+//                   }
+//                   tracks {
+//                     items {
+//                       track {
+//                         id
+//                         name
+//                         artists {
+//                           name
+//                         }
+//                       }
+//                     }
+//                   }
+//                   href
+//                   primaryColor
+//                   snapshotId
+//                   uri
+//                   tracksHref
+//                   tracksTotal
+//                   ownerId
+//                   owner
+//                 }
+//               `,
+//             })
+//             return [...existingPlaylists, newPlaylistRef]
+//           },
+//         },
+//       })
+//     },
+//     onError(error, clientOptions) {
+//       console.log(error)
+//     },
+//   })
 
 //   const delay = (ms: number) => {
 //     return new Promise((resolve) => setTimeout(resolve, ms))
@@ -80,7 +227,37 @@ const SpotifyReq: React.FC = () => {
 //           await recursiveFetch(offset + data.body.limit)
 //         } else {
 //           console.log(data.body)
-//           // Perform any necessary actions with the fetched data here
+
+//           createPlaylist({
+//             variables: {
+//               playlist: {
+//                 id: data.body.id,
+//                 name: data.body.name,
+//                 description: data.body.description,
+//                 collaborative: data.body.collaborative,
+//                 public: data.body.public,
+//                 images: data.body.images,
+//                 // For tracks, we need to fetch the tracks separately
+//                 // tracks: data.body.tracks,
+//                 href: data.body.href,
+//                 primaryColor: data.body.primary_color,
+//                 snapshotId: data.body.snapshot_id,
+//                 uri: data.body.uri,
+//                 tracksHref: data.body.tracks.href,
+//                 tracksTotal: data.body.tracks.total,
+//                 ownerId: data.body.owner.id,
+//                 owner: data.body.owner,
+//               },
+//             },
+//           })
+//             .then((res) => {
+//               // Handle successful creation of playlist
+//               console.log('Playlist created:', res.data.createPlaylist)
+//             })
+//             .catch((error) => {
+//               // Handle error
+//               console.error('Error creating playlist:', error)
+//             })
 //         }
 //       } catch (error) {
 //         console.log('Error:', error)
