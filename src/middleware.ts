@@ -9,6 +9,7 @@ export async function middleware(req: NextRequest) {
   }
 
   try {
+    const url = req.nextUrl.clone()
     const { pathname } = req.nextUrl
 
     const token = await getToken({
@@ -18,23 +19,19 @@ export async function middleware(req: NextRequest) {
 
     // Allow requests to /api/auth or if the user is authenticated
     if (pathname.startsWith('/api/auth') || token) {
-      return NextResponse.next()
+      NextResponse.next()
     }
 
     // Redirect authenticated users from /welcome to /
     if (token && pathname === '/welcome') {
-      return NextResponse.redirect(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : process.env.DOMAIN}/`)
+      url.pathname = '/'
+      NextResponse.rewrite(url)
     }
 
     // Redirect unauthenticated users to /welcome
     if (!token && pathname !== '/welcome') {
-      return NextResponse.redirect(
-        `${
-          process.env.NODE_ENV !== 'production'
-            ? 'http://localhost:3000'
-            : process.env.DOMAIN
-        }/welcome`
-      )
+      url.pathname = '/welcome'
+      NextResponse.rewrite(url)
     }
   } catch (error) {
     console.error('Error in middleware:', error)

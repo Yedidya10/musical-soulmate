@@ -27,9 +27,9 @@ function getCredentials(providerName: string) {
 const authOptions: NextAuthOptions = {
   // adapter: prismaAdapter,
   // use jwt instead of database sessions to manage middleware more easily
-  session: {
-    strategy: 'jwt',
-  },
+  // session: {
+  //   strategy: 'jwt',
+  // },
   pages: {
     signIn: '/welcome',
   },
