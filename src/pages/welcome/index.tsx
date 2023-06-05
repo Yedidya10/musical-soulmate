@@ -36,7 +36,7 @@ const CREATE_SUBSCRIBER = gql`
   }
 `
 
-export async function getServerSideProps({ locale }: { locale: string }) {
+export async function getStaticProps({ locale }: { locale: string }) {
   try {
     const providers = await getProviders()
 
@@ -153,7 +153,7 @@ const Welcome: React.FC<IWelcome> = ({ providers }) => {
   return (
     <>
       <Head>
-        <title>Coming Soon</title>
+        <title>Welcome to Musical soulmate</title>
         <meta name="description" content="coming soon landing page" />
       </Head>
       <main className={styles.main}>
