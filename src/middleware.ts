@@ -9,7 +9,6 @@ export async function middleware(req: NextRequest) {
   }
 
   try {
-    const url = req.nextUrl.clone()
     const { pathname } = req.nextUrl
 
     const token = await getToken({
@@ -24,14 +23,12 @@ export async function middleware(req: NextRequest) {
 
     // Redirect authenticated users from /welcome to /
     if (token && pathname === '/welcome') {
-      url.pathname = '/'
-      NextResponse.rewrite(url)
+      NextResponse.rewrite(new URL('/', req.url))
     }
 
     // Redirect unauthenticated users to /welcome
     if (!token && pathname !== '/welcome') {
-      url.pathname = '/welcome'
-      NextResponse.rewrite(url)
+      return NextResponse.rewrite(new URL('/welcome', req.url))
     }
   } catch (error) {
     console.error('Error in middleware:', error)
@@ -48,5 +45,6 @@ export const config = {
      * - favicon.ico (favicon file)
      */
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
+
   ],
 }
