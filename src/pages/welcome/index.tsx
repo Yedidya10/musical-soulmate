@@ -1,5 +1,3 @@
-'use client'
-
 import { Alert, Snackbar, SnackbarOrigin } from '@mui/material'
 import { getProviders, signIn } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
@@ -38,18 +36,29 @@ const CREATE_SUBSCRIBER = gql`
   }
 `
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export async function getServerSideProps({
+  locale,
+}: {
+  locale: string
+  reloadOnPrerender: boolean
+}) {
   try {
     const providers = await getProviders()
 
     return {
       props: {
-        ...(await serverSideTranslations(locale, [
-          'comingSoon',
-          'common',
-          'countries',
-          'form',
-        ])),
+        ...(await serverSideTranslations(
+          locale,
+          ['comingSoon', 'common', 'countries', 'form'],
+          {
+            localePath: './src/locales',
+            i18n: {
+              defaultLocale: 'en',
+              locales: ['en', 'he'],
+            },
+            reloadOnPrerender: true,
+          }
+        )),
         providers,
       },
     }
