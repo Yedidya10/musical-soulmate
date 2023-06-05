@@ -1,3 +1,5 @@
+'use client'
+
 import { Alert, Snackbar, SnackbarOrigin } from '@mui/material'
 import { getProviders, signIn } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
