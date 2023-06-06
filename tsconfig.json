@@ -31,10 +31,10 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/_app.tsx",
-    "pages/_app.tsx",
+    "src/pages/_app.tsx",
     "next-i18next.config.js",
-    "pages/api/auth/[...nextauth].ts"
+    "src/pages/api/auth/[...nextauth].ts",
+    "src/middleware.ts"
   ],
   "exclude": ["node_modules"]
 }

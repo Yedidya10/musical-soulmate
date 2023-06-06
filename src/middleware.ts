@@ -18,12 +18,12 @@ export async function middleware(req: NextRequest) {
 
     // Allow requests to /api/auth or if the user is authenticated
     if (pathname.startsWith('/api/auth') || token) {
-      NextResponse.next()
+      return NextResponse.next()
     }
 
     // Redirect authenticated users from /welcome to /
     if (token && pathname === '/welcome') {
-      NextResponse.rewrite(new URL('/', req.url))
+      return NextResponse.rewrite(new URL('/', req.url))
     }
 
     // Redirect unauthenticated users to /welcome
@@ -45,6 +45,5 @@ export const config = {
      * - favicon.ico (favicon file)
      */
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
-
   ],
 }
